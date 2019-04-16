@@ -1,0 +1,632 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		88FD33B6155163E1FCAE10C1 /* libPods-FMNetworkingExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BECBE4F124A5F132F3125B4 /* libPods-FMNetworkingExample.a */; };
+		DAEEF27222639A090039DD5A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEEF27122639A090039DD5A /* AppDelegate.m */; };
+		DAEEF27522639A090039DD5A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEEF27422639A090039DD5A /* ViewController.m */; };
+		DAEEF27822639A090039DD5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAEEF27622639A090039DD5A /* Main.storyboard */; };
+		DAEEF27A22639A0A0039DD5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAEEF27922639A0A0039DD5A /* Assets.xcassets */; };
+		DAEEF27D22639A0A0039DD5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAEEF27B22639A0A0039DD5A /* LaunchScreen.storyboard */; };
+		DAEEF28022639A0A0039DD5A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEEF27F22639A0A0039DD5A /* main.m */; };
+		DAEEF28A22639A0A0039DD5A /* FMNetworkingExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEEF28922639A0A0039DD5A /* FMNetworkingExampleTests.m */; };
+		DAEEF29522639A0A0039DD5A /* FMNetworkingExampleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAEEF29422639A0A0039DD5A /* FMNetworkingExampleUITests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DAEEF28622639A0A0039DD5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAEEF26522639A090039DD5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAEEF26C22639A090039DD5A;
+			remoteInfo = FMNetworkingExample;
+		};
+		DAEEF29122639A0A0039DD5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAEEF26522639A090039DD5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAEEF26C22639A090039DD5A;
+			remoteInfo = FMNetworkingExample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0BECBE4F124A5F132F3125B4 /* libPods-FMNetworkingExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FMNetworkingExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8160125CD45A89B9563C4233 /* Pods-FMNetworkingExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMNetworkingExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-FMNetworkingExample/Pods-FMNetworkingExample.release.xcconfig"; sourceTree = "<group>"; };
+		90076AF1D43445113AB5E74E /* Pods-FMNetworkingExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMNetworkingExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FMNetworkingExample/Pods-FMNetworkingExample.debug.xcconfig"; sourceTree = "<group>"; };
+		DAEEF26D22639A090039DD5A /* FMNetworkingExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FMNetworkingExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAEEF27022639A090039DD5A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DAEEF27122639A090039DD5A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DAEEF27322639A090039DD5A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		DAEEF27422639A090039DD5A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DAEEF27722639A090039DD5A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DAEEF27922639A0A0039DD5A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DAEEF27C22639A0A0039DD5A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DAEEF27E22639A0A0039DD5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAEEF27F22639A0A0039DD5A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DAEEF28522639A0A0039DD5A /* FMNetworkingExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FMNetworkingExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAEEF28922639A0A0039DD5A /* FMNetworkingExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMNetworkingExampleTests.m; sourceTree = "<group>"; };
+		DAEEF28B22639A0A0039DD5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAEEF29022639A0A0039DD5A /* FMNetworkingExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FMNetworkingExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAEEF29422639A0A0039DD5A /* FMNetworkingExampleUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FMNetworkingExampleUITests.m; sourceTree = "<group>"; };
+		DAEEF29622639A0A0039DD5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DAEEF26A22639A090039DD5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				88FD33B6155163E1FCAE10C1 /* libPods-FMNetworkingExample.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAEEF28222639A0A0039DD5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAEEF28D22639A0A0039DD5A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3E62918A6E133D3934751066 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0BECBE4F124A5F132F3125B4 /* libPods-FMNetworkingExample.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DAEEF26422639A090039DD5A = {
+			isa = PBXGroup;
+			children = (
+				DAEEF26F22639A090039DD5A /* FMNetworkingExample */,
+				DAEEF28822639A0A0039DD5A /* FMNetworkingExampleTests */,
+				DAEEF29322639A0A0039DD5A /* FMNetworkingExampleUITests */,
+				DAEEF26E22639A090039DD5A /* Products */,
+				EAD29C4FC14F18D1A61607A7 /* Pods */,
+				3E62918A6E133D3934751066 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		DAEEF26E22639A090039DD5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DAEEF26D22639A090039DD5A /* FMNetworkingExample.app */,
+				DAEEF28522639A0A0039DD5A /* FMNetworkingExampleTests.xctest */,
+				DAEEF29022639A0A0039DD5A /* FMNetworkingExampleUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DAEEF26F22639A090039DD5A /* FMNetworkingExample */ = {
+			isa = PBXGroup;
+			children = (
+				DAEEF27022639A090039DD5A /* AppDelegate.h */,
+				DAEEF27122639A090039DD5A /* AppDelegate.m */,
+				DAEEF27322639A090039DD5A /* ViewController.h */,
+				DAEEF27422639A090039DD5A /* ViewController.m */,
+				DAEEF27622639A090039DD5A /* Main.storyboard */,
+				DAEEF27922639A0A0039DD5A /* Assets.xcassets */,
+				DAEEF27B22639A0A0039DD5A /* LaunchScreen.storyboard */,
+				DAEEF27E22639A0A0039DD5A /* Info.plist */,
+				DAEEF27F22639A0A0039DD5A /* main.m */,
+			);
+			path = FMNetworkingExample;
+			sourceTree = "<group>";
+		};
+		DAEEF28822639A0A0039DD5A /* FMNetworkingExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				DAEEF28922639A0A0039DD5A /* FMNetworkingExampleTests.m */,
+				DAEEF28B22639A0A0039DD5A /* Info.plist */,
+			);
+			path = FMNetworkingExampleTests;
+			sourceTree = "<group>";
+		};
+		DAEEF29322639A0A0039DD5A /* FMNetworkingExampleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				DAEEF29422639A0A0039DD5A /* FMNetworkingExampleUITests.m */,
+				DAEEF29622639A0A0039DD5A /* Info.plist */,
+			);
+			path = FMNetworkingExampleUITests;
+			sourceTree = "<group>";
+		};
+		EAD29C4FC14F18D1A61607A7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				90076AF1D43445113AB5E74E /* Pods-FMNetworkingExample.debug.xcconfig */,
+				8160125CD45A89B9563C4233 /* Pods-FMNetworkingExample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DAEEF26C22639A090039DD5A /* FMNetworkingExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAEEF29922639A0A0039DD5A /* Build configuration list for PBXNativeTarget "FMNetworkingExample" */;
+			buildPhases = (
+				75926E0EF63FAF3CADEFD228 /* [CP] Check Pods Manifest.lock */,
+				DAEEF26922639A090039DD5A /* Sources */,
+				DAEEF26A22639A090039DD5A /* Frameworks */,
+				DAEEF26B22639A090039DD5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FMNetworkingExample;
+			productName = FMNetworkingExample;
+			productReference = DAEEF26D22639A090039DD5A /* FMNetworkingExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DAEEF28422639A0A0039DD5A /* FMNetworkingExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAEEF29C22639A0A0039DD5A /* Build configuration list for PBXNativeTarget "FMNetworkingExampleTests" */;
+			buildPhases = (
+				DAEEF28122639A0A0039DD5A /* Sources */,
+				DAEEF28222639A0A0039DD5A /* Frameworks */,
+				DAEEF28322639A0A0039DD5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DAEEF28722639A0A0039DD5A /* PBXTargetDependency */,
+			);
+			name = FMNetworkingExampleTests;
+			productName = FMNetworkingExampleTests;
+			productReference = DAEEF28522639A0A0039DD5A /* FMNetworkingExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DAEEF28F22639A0A0039DD5A /* FMNetworkingExampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DAEEF29F22639A0A0039DD5A /* Build configuration list for PBXNativeTarget "FMNetworkingExampleUITests" */;
+			buildPhases = (
+				DAEEF28C22639A0A0039DD5A /* Sources */,
+				DAEEF28D22639A0A0039DD5A /* Frameworks */,
+				DAEEF28E22639A0A0039DD5A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DAEEF29222639A0A0039DD5A /* PBXTargetDependency */,
+			);
+			name = FMNetworkingExampleUITests;
+			productName = FMNetworkingExampleUITests;
+			productReference = DAEEF29022639A0A0039DD5A /* FMNetworkingExampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DAEEF26522639A090039DD5A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "袁凤鸣";
+				TargetAttributes = {
+					DAEEF26C22639A090039DD5A = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					DAEEF28422639A0A0039DD5A = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = DAEEF26C22639A090039DD5A;
+					};
+					DAEEF28F22639A0A0039DD5A = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = DAEEF26C22639A090039DD5A;
+					};
+				};
+			};
+			buildConfigurationList = DAEEF26822639A090039DD5A /* Build configuration list for PBXProject "FMNetworkingExample" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DAEEF26422639A090039DD5A;
+			productRefGroup = DAEEF26E22639A090039DD5A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DAEEF26C22639A090039DD5A /* FMNetworkingExample */,
+				DAEEF28422639A0A0039DD5A /* FMNetworkingExampleTests */,
+				DAEEF28F22639A0A0039DD5A /* FMNetworkingExampleUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DAEEF26B22639A090039DD5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAEEF27D22639A0A0039DD5A /* LaunchScreen.storyboard in Resources */,
+				DAEEF27A22639A0A0039DD5A /* Assets.xcassets in Resources */,
+				DAEEF27822639A090039DD5A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAEEF28322639A0A0039DD5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAEEF28E22639A0A0039DD5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		75926E0EF63FAF3CADEFD228 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FMNetworkingExample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DAEEF26922639A090039DD5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAEEF27522639A090039DD5A /* ViewController.m in Sources */,
+				DAEEF28022639A0A0039DD5A /* main.m in Sources */,
+				DAEEF27222639A090039DD5A /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAEEF28122639A0A0039DD5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAEEF28A22639A0A0039DD5A /* FMNetworkingExampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DAEEF28C22639A0A0039DD5A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DAEEF29522639A0A0039DD5A /* FMNetworkingExampleUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DAEEF28722639A0A0039DD5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAEEF26C22639A090039DD5A /* FMNetworkingExample */;
+			targetProxy = DAEEF28622639A0A0039DD5A /* PBXContainerItemProxy */;
+		};
+		DAEEF29222639A0A0039DD5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAEEF26C22639A090039DD5A /* FMNetworkingExample */;
+			targetProxy = DAEEF29122639A0A0039DD5A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DAEEF27622639A090039DD5A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAEEF27722639A090039DD5A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DAEEF27B22639A0A0039DD5A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAEEF27C22639A0A0039DD5A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DAEEF29722639A0A0039DD5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		DAEEF29822639A0A0039DD5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DAEEF29A22639A0A0039DD5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 90076AF1D43445113AB5E74E /* Pods-FMNetworkingExample.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 98FAB63H6X;
+				INFOPLIST_FILE = FMNetworkingExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mingo.FMNetworkingExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DAEEF29B22639A0A0039DD5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8160125CD45A89B9563C4233 /* Pods-FMNetworkingExample.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 98FAB63H6X;
+				INFOPLIST_FILE = FMNetworkingExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mingo.FMNetworkingExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		DAEEF29D22639A0A0039DD5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SV98J7C3Y8;
+				INFOPLIST_FILE = FMNetworkingExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mingo.FMNetworkingExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FMNetworkingExample.app/FMNetworkingExample";
+			};
+			name = Debug;
+		};
+		DAEEF29E22639A0A0039DD5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SV98J7C3Y8;
+				INFOPLIST_FILE = FMNetworkingExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mingo.FMNetworkingExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FMNetworkingExample.app/FMNetworkingExample";
+			};
+			name = Release;
+		};
+		DAEEF2A022639A0A0039DD5A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SV98J7C3Y8;
+				INFOPLIST_FILE = FMNetworkingExampleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mingo.FMNetworkingExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FMNetworkingExample;
+			};
+			name = Debug;
+		};
+		DAEEF2A122639A0A0039DD5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = SV98J7C3Y8;
+				INFOPLIST_FILE = FMNetworkingExampleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mingo.FMNetworkingExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FMNetworkingExample;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DAEEF26822639A090039DD5A /* Build configuration list for PBXProject "FMNetworkingExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAEEF29722639A0A0039DD5A /* Debug */,
+				DAEEF29822639A0A0039DD5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAEEF29922639A0A0039DD5A /* Build configuration list for PBXNativeTarget "FMNetworkingExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAEEF29A22639A0A0039DD5A /* Debug */,
+				DAEEF29B22639A0A0039DD5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAEEF29C22639A0A0039DD5A /* Build configuration list for PBXNativeTarget "FMNetworkingExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAEEF29D22639A0A0039DD5A /* Debug */,
+				DAEEF29E22639A0A0039DD5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DAEEF29F22639A0A0039DD5A /* Build configuration list for PBXNativeTarget "FMNetworkingExampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DAEEF2A022639A0A0039DD5A /* Debug */,
+				DAEEF2A122639A0A0039DD5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DAEEF26522639A090039DD5A /* Project object */;
+}
