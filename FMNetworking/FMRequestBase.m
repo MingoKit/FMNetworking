@@ -20,7 +20,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.securityPolicy.validatesDomainName = NO;
     //    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.requestSerializer.timeoutInterval = 25.0f;
+    manager.requestSerializer.timeoutInterval = 30.0f;
     
     [self fm_forHTTPHeaderField:dicHeader manager:manager];
     if (params == nil) {
