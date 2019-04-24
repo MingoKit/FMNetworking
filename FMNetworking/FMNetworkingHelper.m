@@ -3,7 +3,7 @@
 //  FupingElectricity
 //
 //  Created by mingo on 2019/3/21.
-//  Copyright © 2019年 袁凤鸣. All rights reserved.
+//  Copyright © 2019年 mingo. All rights reserved.
 //
 
 #import "FMNetworkingHelper.h"

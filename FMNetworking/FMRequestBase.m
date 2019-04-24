@@ -3,7 +3,7 @@
 //  FupingElectricity
 //
 //  Created by mingo on 2019/3/21.
-//  Copyright © 2019年 袁凤鸣. All rights reserved.
+//  Copyright © 2019年 mingo. All rights reserved.
 //
 
 #import "FMRequestBase.h"
@@ -78,7 +78,7 @@
     }];
 }
 
-+ (void)fm_postSetHttpHeader:(NSString *)url params:(NSDictionary *)params forHttpHeaderIfnilSetDefault:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock {
++ (void)fm_postSetHttpHeader:(NSString *)url params:(NSDictionary *)params forHttpHeaderIfnilSetDefault:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
     NSMutableDictionary *dic = NSMutableDictionary.dictionary;
     if (dicHeader == nil) {
         [dic setObject:FMNetworkingManager.sharedInstance.userId forKey:@"userId"];
@@ -91,8 +91,14 @@
         if (successBlock) successBlock(responseObject,code,msgStr);
         
     } successTokenErrorBlock:nil successNotNeedBlock:nil failureBlock:^(NSError *error , id objc) {
-
+        if (failureBlock) failureBlock(error,nil);
     }];
+}
++ (void)fm_postSetHttpHeader:(NSString *)url params:(NSDictionary *)params forHttpHeaderIfnilSetDefault:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock {
+    [self fm_postSetHttpHeader:url params:params forHttpHeaderIfnilSetDefault:dicHeader isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip successBlock:successBlock failureBlock:^(NSError *error, id objc) {
+        
+    }];
+    
 }
 
 
