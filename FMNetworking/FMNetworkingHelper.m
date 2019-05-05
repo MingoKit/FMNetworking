@@ -56,6 +56,31 @@
     }];
 }
 
+/// 上传 base64 图片 
++ (void)fm_uploadBase64ImageUrl:(NSString *)urlString image:(UIImage *)image isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip progress:(RequestProgressBlock)progressBlock success:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
+    
+    NSData *data = UIImageJPEGRepresentation(image, 0.5f);
+    NSString *base64Data = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    base64Data = [NSString stringWithFormat:@"data:image/jpeg;base64,%@",base64Data];
+    NSDictionary *dic = @{
+                          @"base64Data":base64Data
+                          };
+    [FMNetworkingManager fm_postRequest:urlString params:dic forHTTPHeaderField:nil isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    
+    } progress:^(NSProgress *uploadProgress, CGFloat progress) {
+        if (progressBlock) progressBlock(uploadProgress,progress);
+        
+    } successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        if (successBlock) successBlock(responseObject,code,msgStr);
+        
+    } successTokenErrorBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        
+    } successNotNeedBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        
+    } failureBlock:^(NSError *error , id objc) {
+        !failureBlock? :failureBlock(error,objc);
+    }];
+}
 
 + (void)fm_postSetDodyRawUrl:(NSString *)url bodyStr:(NSString *)bodyStr isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTips successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
     
@@ -134,6 +159,7 @@
         !failureBlock? :failureBlock(error,objc);
     }];
 }
+
 
 + (void)fm_loginOut {
     
