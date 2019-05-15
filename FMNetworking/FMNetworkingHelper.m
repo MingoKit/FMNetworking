@@ -104,7 +104,11 @@
     manager.responseSerializer = responseSerializer;
     if (isHandleClickRequst) [FMNetworkingTools fm_showHudLoadingIndicator];
     
-    [[manager dataTaskWithRequest:request completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+    [[manager dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         
         if (!error) {
             if (isHandleClickRequst) [FMNetworkingTools fm_hidenHudIndicator];
@@ -138,7 +142,7 @@
             NSLog(@"error--------%@",error);
             !failureBlock? :failureBlock(error,nil);
         }
-    }] resume];
+    }] resume];;
 }
 
 + (void)fm_postDodyrawUrl:(NSString *)url bodyStr:(NSString *)bodyStr isHandleClick:(BOOL)isHandleClick showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock {
