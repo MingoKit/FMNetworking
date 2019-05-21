@@ -81,11 +81,15 @@
 + (void)fm_postSetHttpHeader:(NSString *)url params:(NSDictionary *)params forHttpHeaderIfnilSetDefault:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
     NSMutableDictionary *dic = NSMutableDictionary.dictionary;
     if (dicHeader == nil) {
-        [dic setObject:FMNetworkingManager.sharedInstance.userId forKey:@"userId"];
+        if (FMNetworkingManager.sharedInstance.userId.length) {
+            [dic setObject:FMNetworkingManager.sharedInstance.userId forKey:@"userId"];
+        }
     }else{
         dic = dicHeader.mutableCopy;
     }
-    [dic setObject:FMNetworkingManager.sharedInstance.token forKey:@"token"];
+    if (FMNetworkingManager.sharedInstance.token.length) {
+        [dic setObject:FMNetworkingManager.sharedInstance.token forKey:@"token"];
+    }
     
     [self fm_postRequest:url params:params forHTTPHeaderField:dic isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip constructingBodyWithBlock:nil progress:nil successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         if (successBlock) successBlock(responseObject,code,msgStr);
