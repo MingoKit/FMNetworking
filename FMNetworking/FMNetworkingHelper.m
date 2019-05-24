@@ -10,10 +10,10 @@
 #import "FMNetworkingManager.h"
 #import "FMNetworkingTools.h"
 
-@implementation FMNetworking
+@implementation FMNetworkingHelper
 + (void)fm_isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTip responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
     NSInteger code = [responseObject[@"code"] integerValue];
-    if (code == 100) {
+    if (code == FMNetworkingManager.sharedInstance.codeLogout) {
         [self fm_loginOut];
         return ;
     }

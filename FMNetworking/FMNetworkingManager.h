@@ -16,7 +16,11 @@ typedef NS_ENUM(NSInteger, FMNetworkingHandlerType) {
 
 typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type);
 
-@interface FMNetworkingManager : FMNetworking
+@interface FMNetworkingManager : FMNetworkingHelper
+@property (nonatomic, assign) NSInteger codetokenError;
+@property (nonatomic, assign) NSInteger codeSuccess;
+@property (nonatomic, assign) NSInteger codeLogout;
+
 @property (nonatomic, copy) NSString *mainHostUrl;
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *token;

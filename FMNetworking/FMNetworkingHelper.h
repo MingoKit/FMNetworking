@@ -8,7 +8,7 @@
 
 #import "FMRequestBase.h"
 
-@interface FMNetworking : FMRequestBase
+@interface FMNetworkingHelper : FMRequestBase
 
 + (void)fm_isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTip responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock;
 

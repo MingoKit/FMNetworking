@@ -114,11 +114,11 @@
     if (isHandleClickRequst) [FMNetworkingTools fm_hidenHudIndicator];
     
    
-    if (code == 1) {
+    if (code == FMNetworkingManager.sharedInstance.codeSuccess) {
         !successOkBlock? :successOkBlock(jsonData,code,msgStr);
         return;
     }
-    if (code == 401) {//token失效
+    if (code == FMNetworkingManager.sharedInstance.codetokenError) {//token失效
         !tokenErrorBlock? :tokenErrorBlock(jsonData,code,msgStr);
         //        [self fm_showReloginAlert:msgStr]; /// 重新登录
         return;
