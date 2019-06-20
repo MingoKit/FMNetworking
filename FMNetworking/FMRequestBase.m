@@ -48,34 +48,28 @@
     }];
 }
 
-+ (void)fm_getUrl:(NSString *)url params:(NSDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))constructingBodyblock progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
++ (void)fm_getUrl:(NSString *)url params:(NSDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip  progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
     
     if (![url containsString:@"http"]) url = kFormatWithMainHostUrl(url);
     NSString *urlString = [NSURL URLWithString:url] ? url : [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];/*! 检查地址中是否有中文 */
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.securityPolicy.validatesDomainName = NO;
-    //    manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.requestSerializer.timeoutInterval = 25.0f;
-    
-    [self fm_forHTTPHeaderField:dicHeader manager:manager];
-    if (params == nil) {
-        params = @{};
-    }
-    [self fm_logRequestInfo:manager isGetRequest:NO urlStr:url params:params];
+    [self fm_logRequestInfo:manager isGetRequest:YES urlStr:url params:params];
     if (isHanderClickRequst) [FMNetworkingTools fm_showHudLoadingIndicator];
-    [manager GET:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        CGFloat progress = 1.0 * uploadProgress.completedUnitCount / uploadProgress.totalUnitCount;
-        !progressBlock? :progressBlock(uploadProgress,progress);
+    [manager GET:urlString parameters:params progress:^(NSProgress * _Nonnull downloadProgress) {
+        CGFloat progress = 1.0 * downloadProgress.completedUnitCount / downloadProgress.totalUnitCount;
+        !progressBlock? :progressBlock(downloadProgress,progress);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self fm_isHandleClickRequst:isHanderClickRequst showStatusTips:showStatusTip responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
-        
+         [self fm_isHandleClickRequst:isHanderClickRequst showStatusTips:showStatusTip responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (isHanderClickRequst) [FMNetworkingTools fm_hidenHudIndicator];
         if (showStatusTip) [FMNetworkingTools fm_showHudText:[NSString stringWithFormat:@"%@",error.localizedDescription]];
         NSLog(@"error--------%@",error);
         !failureBlock? :failureBlock(error,nil);
     }];
+    
+    
 }
 
 + (void)fm_postSetHttpHeader:(NSString *)url params:(NSDictionary *)params forHttpHeaderIfnilSetDefault:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
@@ -113,7 +107,8 @@
     NSString *msgStr = responseObject[@"msg"];
     if (isHandleClickRequst) [FMNetworkingTools fm_hidenHudIndicator];
     
-   
+    !notNeedBlock? :notNeedBlock(jsonData,code,msgStr);
+
     if (code == FMNetworkingManager.sharedInstance.codeSuccess) {
         !successOkBlock? :successOkBlock(jsonData,code,msgStr);
         return;
@@ -123,7 +118,6 @@
         //        [self fm_showReloginAlert:msgStr]; /// 重新登录
         return;
     }
-    !notNeedBlock? :notNeedBlock(jsonData,code,msgStr);
     if (showStatusTip) [FMNetworkingTools fm_showHudText:msgStr];
     
 }

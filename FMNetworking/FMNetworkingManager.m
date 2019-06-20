@@ -47,6 +47,38 @@ static id  _sharedInstance = nil;
         if (failureBlock) failureBlock(error,objc);
     }];
 }
+
++(void)fm_getUrl:(NSString *)url params:(NSDictionary *)params isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
+    [FMNetworkingManager fm_getUrl:url params:params forHTTPHeaderField:nil isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip progress:^(NSProgress *uploadProgress, CGFloat progress) {
+        
+    } successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        if (successBlock) successBlock(responseObject,code,msgStr);
+
+    } successTokenErrorBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        
+    } successNotNeedBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        
+    } failureBlock:^(NSError *error, id objc) {
+        if (failureBlock) failureBlock(error,objc);
+    }];
+}
+
++(void)fm_getUrlCodeYourself:(NSString *)url params:(NSDictionary *)params isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
+    [FMNetworkingManager fm_getUrl:url params:params forHTTPHeaderField:nil isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip progress:^(NSProgress *uploadProgress, CGFloat progress) {
+        
+    } successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        
+    } successTokenErrorBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        
+    } successNotNeedBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        if (successBlock) successBlock(responseObject,code,msgStr);
+
+    } failureBlock:^(NSError *error, id objc) {
+        if (failureBlock) failureBlock(error,objc);
+    }];
+}
+
+
 +(void)fm_postUrl:(NSString *)url params:(NSDictionary *)params isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock {
     [self fm_postUrl:url params:params isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip successBlock:successBlock failureBlock:^(NSError *error, id objc) {
         
