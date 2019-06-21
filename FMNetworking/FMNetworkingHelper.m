@@ -59,9 +59,12 @@
 /// 上传 base64 图片 
 + (void)fm_uploadBase64ImageUrl:(NSString *)urlString image:(UIImage *)image isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip progress:(RequestProgressBlock)progressBlock success:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
     
-    NSData *data = UIImageJPEGRepresentation(image, 0.5f);
+    NSData *data = UIImageJPEGRepresentation(image, 0.4f);
     NSString *base64Data = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    base64Data = [NSString stringWithFormat:@"data:image/jpeg;base64,%@",base64Data];
+    NSString *perstr = @"data:image/jpeg;base64";
+    if (![base64Data hasPrefix:perstr]) {
+        base64Data = [NSString stringWithFormat:@"%@,%@",perstr,base64Data];
+    }
     NSDictionary *dic = @{
                           @"base64Data":base64Data
                           };
@@ -82,18 +85,23 @@
     }];
 }
 
-+ (void)fm_postSetDodyRawUrl:(NSString *)url bodyStr:(NSString *)bodyStr isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTips successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
++ (void)fm_postSetDodyRawUrl:(NSString *)url bodyraw:(id)bodyraw isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTips successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
     
     NSString *urlStr = url;
     if (!url.length) return;
     if (![url containsString:@"http"]) urlStr = kFormatWithMainHostUrl(url);
     
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:urlStr parameters:nil error:nil];
     request.timeoutInterval= 20;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
+    NSString *bodyStr = @"";
+    if ([bodyraw isKindOfClass:[NSDictionary class]] || [bodyraw isKindOfClass:[NSMutableDictionary class]]) {
+        bodyStr = [self fm_dictionaryToJsonString:bodyraw];
+    }else if ([bodyraw isKindOfClass:[NSString class]]) {
+        bodyStr = bodyraw;
+    }
     // 设置body
     NSData *param_data = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
     request.HTTPBody = param_data;
@@ -103,56 +111,58 @@
     
     manager.responseSerializer = responseSerializer;
     if (isHandleClickRequst) [FMNetworkingTools fm_showHudLoadingIndicator];
-    
+    [self fm_logRequestInfo:manager isGetRequest:NO urlStr:url params:bodyStr];
+
     [[manager dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
         
     } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
         
     } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         
-        if (!error) {
-            if (isHandleClickRequst) [FMNetworkingTools fm_hidenHudIndicator];
-            
-            NSDictionary * dicJson = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-            
-            
-            id jsonData = dicJson[@"data"];
-            NSLog(@"responseObject-------%@",dicJson);
-            
-            NSInteger code = [dicJson[@"code"] integerValue];
-            NSString *msgStr = dicJson[@"msg"];
-            if (code == 1) {
-                !successOkBlock? :successOkBlock(jsonData,code,msgStr);
-                
-            }else if (code == 401) {//token失效
-                !tokenErrorBlock? :tokenErrorBlock(jsonData,code,msgStr);
-                
-            } else {
-                !notNeedBlock? :notNeedBlock(jsonData,code,msgStr);
-                if (showStatusTips) [FMNetworkingTools fm_showHudText:msgStr];
-                
-            }
-        } else {
-            if (isHandleClickRequst) {
-                [FMNetworkingTools fm_hidenHudIndicator];
-            }
+        if (error) {
+            if (isHandleClickRequst)  [FMNetworkingTools fm_hidenHudIndicator];
             if (showStatusTips) {
                 [FMNetworkingTools fm_showHudText:[NSString stringWithFormat:@"%@",error.localizedDescription]];
             }
             NSLog(@"error--------%@",error);
             !failureBlock? :failureBlock(error,nil);
+        } else {
+            if (isHandleClickRequst) [FMNetworkingTools fm_hidenHudIndicator];
+            
+            NSDictionary * dicJson = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+            
+             [self fm_isHandleClickRequst:isHandleClickRequst showStatusTips:showStatusTips responseObject:dicJson successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
+            
+//            id jsonData = dicJson[@"data"];
+//            NSLog(@"responseObject-------%@",dicJson);
+//
+//            NSInteger code = [dicJson[@"code"] integerValue];
+//            NSString *msgStr = dicJson[@"msg"];
+//            if (code == 1) {
+//                !successOkBlock? :successOkBlock(jsonData,code,msgStr);
+//
+//            }else if (code == 401) {//token失效
+//                !tokenErrorBlock? :tokenErrorBlock(jsonData,code,msgStr);
+//
+//            } else {
+//                !notNeedBlock? :notNeedBlock(jsonData,code,msgStr);
+//                if (showStatusTips) [FMNetworkingTools fm_showHudText:msgStr];
+//
+//            }
         }
     }] resume];;
 }
 
-+ (void)fm_postDodyrawUrl:(NSString *)url bodyStr:(NSString *)bodyStr isHandleClick:(BOOL)isHandleClick showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock {
-    [self fm_postDodyrawUrl:url bodyStr:bodyStr isHandleClick:isHandleClick showStatusTips:showStatusTips successBlock:successBlock failureBlock:^(NSError *error, id objc) {
++ (void)fm_postDodyrawUrl:(NSString *)url bodyraw:(id)bodyraw isHandleClick:(BOOL)isHandleClick showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock {
+    [self fm_postDodyrawUrl:url bodyraw:bodyraw isHandleClick:isHandleClick showStatusTips:showStatusTips successBlock:successBlock failureBlock:^(NSError *error, id objc) {
         
     }];
 }
 
-+ (void)fm_postDodyrawUrl:(NSString *)url bodyStr:(NSString *)bodyStr isHandleClick:(BOOL)isHandleClick showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
-    [self fm_postSetDodyRawUrl:url bodyStr:bodyStr isHandleClickRequst:isHandleClick showStatusTips:showStatusTips successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
++ (void)fm_postDodyrawUrl:(NSString *)url bodyraw:(id)bodyraw isHandleClick:(BOOL)isHandleClick showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
+    
+  
+    [self fm_postSetDodyRawUrl:url bodyraw:bodyraw isHandleClickRequst:isHandleClick showStatusTips:showStatusTips successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         !successBlock? :successBlock(responseObject,code,msgStr);
         
     } successTokenErrorBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
@@ -164,6 +174,11 @@
     }];
 }
 
++ (NSString *)fm_dictionaryToJsonString:(NSDictionary *)dic{
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *string =  [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return string;
+}
 
 + (void)fm_loginOut {
     

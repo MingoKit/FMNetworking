@@ -48,6 +48,24 @@ static id  _sharedInstance = nil;
     }];
 }
 
++(void)fm_postUrlCodeYourself:(NSString *)url params:(NSDictionary *)params isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
+    [FMNetworkingManager fm_postRequest:url params:params forHTTPHeaderField:nil isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+    } progress:^(NSProgress *uploadProgress, CGFloat progress) {
+        
+    } successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        
+    } successTokenErrorBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        
+    } successNotNeedBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
+        if (successBlock) successBlock(responseObject,code,msgStr);
+    } failureBlock:^(NSError *error, id objc) {
+        if (failureBlock) failureBlock(error,objc);
+    }];
+    
+}
+
+
 +(void)fm_getUrl:(NSString *)url params:(NSDictionary *)params isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
     [FMNetworkingManager fm_getUrl:url params:params forHTTPHeaderField:nil isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip progress:^(NSProgress *uploadProgress, CGFloat progress) {
         

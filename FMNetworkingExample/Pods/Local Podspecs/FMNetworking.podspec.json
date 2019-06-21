@@ -15,7 +15,7 @@
     "ios": "9.0"
   },
   "source": {
-    "git": "git@github.com:yfming93/FMNetworking.git",
+    "git": "https://github.com/yfming93/FMNetworking.git",
     "tag": "1.0.0"
   },
   "dependencies": {
