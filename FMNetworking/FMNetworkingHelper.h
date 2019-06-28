@@ -18,8 +18,7 @@
 /// 上传 base64 图片
 + (void)fm_uploadBase64ImageUrl:(NSString *)urlString image:(UIImage *)image isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip progress:(RequestProgressBlock)progressBlock success:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock;
 
-+ (void)fm_postDodyrawUrl:(NSString *)url bodyraw:(id)bodyraw isHandleClick:(BOOL)isHandleClick showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock;
+//+ (void)fm_postDodyrawUrl:(NSString *)url bodyraw:(id)bodyraw isHandleClick:(BOOL)isHandleClick showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock;
 /// post 请求 参数 写在  Dodyraw 中
 + (void)fm_postDodyrawUrl:(NSString *)url bodyraw:(id)bodyraw isHandleClick:(BOOL)isHandleClick showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock;
-
 @end

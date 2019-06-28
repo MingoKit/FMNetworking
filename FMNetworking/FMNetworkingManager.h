@@ -20,6 +20,7 @@ typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type);
 @property (nonatomic, assign) NSInteger codetokenError;
 @property (nonatomic, assign) NSInteger codeSuccess;
 @property (nonatomic, assign) NSInteger codeLogout;
+@property (nonatomic, copy) NSString *loginClassString;
 
 @property (nonatomic, copy) NSString *mainHostUrl;
 @property (nonatomic, copy) NSString *userId;
