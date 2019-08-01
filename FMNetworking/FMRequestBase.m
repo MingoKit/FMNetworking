@@ -120,7 +120,7 @@
     request.HTTPBody =  [self fm_setDodyRawForHttpBody:bodyraw];
     [request setValue:FMNetworkingManager.sharedInstance.token forHTTPHeaderField:@"token"];
     /// 这里要传 request 不能传manager，因为使用了 dataTaskWithRequest 请求
-    [self fm_forHTTPHeaderField:dicHeader manager:request];
+    [self fm_forHTTPHeaderField:dicHeader manager:manager];
     [self fm_logRequestInfo:manager isGetRequest:NO urlStr:urlStr params:bodyraw];
     
     if (showIndicatorHud) [FMNetworkingTools fm_showHudLoadingIndicator];
