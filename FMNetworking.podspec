@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = 'FMNetworking'
   s.summary      = 'A delightful networking framework.'
-  s.version      = '1.1.1'
+  s.version      = '1.1.2'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.authors      = { '袁凤鸣' => 'yfmingo@163.com' }# 作者信息
   s.social_media_url = 'https://www.yfmingo.cn/'
