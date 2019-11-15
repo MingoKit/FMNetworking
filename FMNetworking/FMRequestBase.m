@@ -12,6 +12,7 @@
 
 @implementation FMRequestBase
 
+
 + (void)fm_postRequest:(NSString *)url params:(NSDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))constructingBodyblock progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
     
     if (![url containsString:@"http"]) url = kFormatWithMainHostUrl(url);
@@ -43,7 +44,7 @@
             [FMNetworkingTools fm_hidenHudIndicator];
         }
         if (showStatusTip) [FMNetworkingTools fm_showHudText:[NSString stringWithFormat:@"%@",error.localizedDescription]];
-        NSLog(@"error--------%@",error.localizedDescription);
+        [self fm_logRequestFailure:error];
         !failureBlock? :failureBlock(error,nil);
     }];
 }
@@ -67,7 +68,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (isHanderClickRequst) [FMNetworkingTools fm_hidenHudIndicator];
         if (showStatusTip) [FMNetworkingTools fm_showHudText:[NSString stringWithFormat:@"%@",error.localizedDescription]];
-        NSLog(@"error--------%@",error);
+        [self fm_logRequestFailure:error];
         !failureBlock? :failureBlock(error,nil);
     }];
     
@@ -84,8 +85,10 @@
         dic = dicHeader.mutableCopy;
     }
     if (FMNetworkingManager.sharedInstance.token.length) {
-        [dic setObject:FMNetworkingManager.sharedInstance.token forKey:@"token"];
+        [dic setObject:FMNetworkingManager.sharedInstance.token forKey:FMNetworkingManager.sharedInstance.tokenKeyName.length ? FMNetworkingManager.sharedInstance.tokenKeyName : @"token"];
     }
+    
+    
     
     [self fm_postRequest:url params:params forHTTPHeaderField:dic isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip constructingBodyWithBlock:nil progress:nil successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         if (successBlock) successBlock(responseObject,code,msgStr);
@@ -118,9 +121,9 @@
     manager.responseSerializer = responseSerializer;
     // 设置body
     request.HTTPBody =  [self fm_setDodyRawForHttpBody:bodyraw];
-    [request setValue:FMNetworkingManager.sharedInstance.token forHTTPHeaderField:@"token"];
+    [request setValue:FMNetworkingManager.sharedInstance.token forHTTPHeaderField:FMNetworkingManager.sharedInstance.tokenKeyName.length ? FMNetworkingManager.sharedInstance.tokenKeyName : @"token"];
     /// 这里要传 request 不能传manager，因为使用了 dataTaskWithRequest 请求
-    [self fm_forHTTPHeaderField:dicHeader manager:manager];
+    [self fm_forHTTPHeaderField:dicHeader manager:manager mutableURLRequest:request];
     [self fm_logRequestInfo:manager isGetRequest:NO urlStr:urlStr params:bodyraw];
     
     if (showIndicatorHud) [FMNetworkingTools fm_showHudLoadingIndicator];
@@ -132,10 +135,10 @@
         
         if (error) {
             if (showIndicatorHud)  [FMNetworkingTools fm_hidenHudIndicator];
-            if (showStatusTips) {
+            if (showStatusTips && error.localizedDescription) {
                 [FMNetworkingTools fm_showHudText:[NSString stringWithFormat:@"%@",error.localizedDescription]];
             }
-            NSLog(@"error--------%@",error);
+            [self fm_logRequestFailure:error];
             !failureBlock? :failureBlock(error,nil);
         } else {
             if (showIndicatorHud) [FMNetworkingTools fm_hidenHudIndicator];
@@ -149,9 +152,13 @@
 
 
 + (NSString *)fm_dictionaryToJsonString:(NSDictionary *)dic{
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString *string =  [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    return string;
+    if (dic) {
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *string =  [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        return string;
+    }else
+        return @"";
+   
 }
 
 
@@ -172,10 +179,22 @@
 }
 
 + (void)fm_isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTip responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
-    NSLog(@"responseObject-------%@",responseObject);
+    if (FMNetworkingManager.sharedInstance.mingoKill) {
+        return;
+    }
+  
+    [self fm_logRequestSuccess:responseObject];
     id jsonData = responseObject[@"data"];
     NSInteger code = [responseObject[@"code"] integerValue];
-    NSString *msgStr = responseObject[@"msg"];
+    NSString *msgStr = @"";
+    if (FMNetworkingManager.sharedInstance.messagekey.length) {
+        msgStr = responseObject[FMNetworkingManager.sharedInstance.messagekey];
+    }else{
+        msgStr = responseObject[@"msg"];
+        if (!msgStr.length) {
+            msgStr = responseObject[@"message"];
+        }
+    }
     if (isHandleClickRequst) [FMNetworkingTools fm_hidenHudIndicator];
     
     !notNeedBlock? :notNeedBlock(jsonData,code,msgStr);
@@ -193,16 +212,14 @@
     
 }
 
-+ (void)fm_logRequestInfo:(AFHTTPSessionManager *)manager isGetRequest:(BOOL)isGetRequest urlStr:(NSString *)urlStr params:(id)params{
-    NSLog(@"\n******************** RequestInfo *********************\n\
-RequestHeaders: %@\n\
-Request Way: %@\n\
-Request URL: %@\n\
-RequestParams: %@\n\
-******************************************************\n",(manager.requestSerializer.HTTPRequestHeaders), isGetRequest ? @"GET": @"POST" ,urlStr, params);
-}
-+ (void)fm_forHTTPHeaderField:(NSDictionary*)dicHeader manager:(id )manager {
+
++ (void)fm_forHTTPHeaderField:(NSDictionary*)dicHeader manager:(id )manager mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest{
     NSMutableDictionary *dic = [self fm_forHttpHeaderIfnilSetDefault:dicHeader];
+    NSMutableDictionary *dicDef = FMNetworkingManager.sharedInstance.dicDefaultHeader;
+    for (NSInteger i = 0; i < dicDef.allKeys.count; i++) {
+        NSString *key = dicDef.allKeys[i];
+        [dic setObject:dicDef[key] forKey:key];
+    }
     if (dic) { //将token 等等 封装入请求头
         for (NSInteger i = 0; i < dic.allKeys.count; i++) {
             NSString *key = dic.allKeys[i];
@@ -211,8 +228,14 @@ RequestParams: %@\n\
             }else if ([manager isKindOfClass:NSMutableURLRequest.class]){
                 [((NSMutableURLRequest *)manager) setValue:dic[key] forHTTPHeaderField:key];
             }
+            if (mutableURLRequest) {
+                [mutableURLRequest setValue:dic[key] forHTTPHeaderField:key];
+            }
         }
     }
+}
++ (void)fm_forHTTPHeaderField:(NSDictionary*)dicHeader manager:(id )manager {
+    [self fm_forHTTPHeaderField:dicHeader manager:manager mutableURLRequest:nil];
 }
 
 + (NSMutableDictionary *)fm_forHttpHeaderIfnilSetDefault:(NSDictionary *)dicHeader {
@@ -225,7 +248,7 @@ RequestParams: %@\n\
         dic = dicHeader.mutableCopy;
     }
     if (FMNetworkingManager.sharedInstance.token.length) {
-        [dic setObject:FMNetworkingManager.sharedInstance.token forKey:@"token"];
+        [dic setObject:FMNetworkingManager.sharedInstance.token forKey:FMNetworkingManager.sharedInstance.tokenKeyName.length ? FMNetworkingManager.sharedInstance.tokenKeyName : @"token"];
     }
     return dic;
 }
@@ -276,10 +299,44 @@ RequestParams: %@\n\
         UIViewController *vc = [[NSClassFromString(FMNetworkingManager.sharedInstance.loginClassString) alloc] init];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         vc.navigationController.navigationBar.hidden = YES;
+        nav.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self fm_getCurrentVC].modalPresentationStyle = UIModalPresentationFullScreen;
         [[self fm_getCurrentVC] presentViewController:nav animated:YES completion:^{
         }];
     }]];
     [[self fm_getCurrentVC] presentViewController:alert animated:YES completion:nil];
+}
+
++ (void)fm_logRequestInfo:(AFHTTPSessionManager *)manager isGetRequest:(BOOL)isGetRequest urlStr:(NSString *)urlStr params:(id)params{
+    NSString *log = [NSString stringWithFormat:@"\n👇👇👇👇👇👇👉 RequestInfo Down 👈👇👇👇👇👇👇\n👇RequestHeaders: %@\n👆Request Way: %@\n👆Request URL: %@\n👆RequestParams: %@\n👆👆👆👆👆👆👉 RequestInfo Upon 👈👆👆👆👆👆👆\n",(manager.requestSerializer.HTTPRequestHeaders), isGetRequest ? @"GET": @"POST" ,urlStr, params];
+    
+    NSLog(@"%@", [NSString stringWithFormat:@"%@",log]);
+    if (FMNetworkingManager.sharedInstance.networkingHandler) {
+        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, log);
+    }
+    
+}
+
+
++ (void)fm_logRequestSuccess:(id)x {
+    NSString *resp = [self fm_dictionaryToJsonString:((NSDictionary *)x)];
+    NSString *repsLog = [NSString stringWithFormat:@"\n🔻🔻🔻🔻🔻🔻🔻 ResponseObject Down 🔻🔻🔻🔻🔻🔻\n%@\n🔺🔺🔺🔺🔺🔺🔺 ResponseObject Upon 🔺🔺🔺🔺🔺🔺\n",resp];
+    NSLog(@"%@", repsLog);
+    
+    if (FMNetworkingManager.sharedInstance.networkingHandler) {
+        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, repsLog);
+    }
+}
+
+
++ (void)fm_logRequestFailure:(id)x {
+    NSError *error = x;
+    NSString *repsLog = [NSString stringWithFormat:@"\n👇👇❌❌❌❌❌ RequestError Down ❌❌❌❌❌👇👇\n%@\n%@\n👆👆❌❌❌❌❌ RequestError Upon ❌❌❌❌❌👆👆\n",error.localizedDescription,error];
+    NSLog(@"%@", repsLog);
+
+    if (FMNetworkingManager.sharedInstance.networkingHandler) {
+        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, repsLog);
+    }
 }
 
 

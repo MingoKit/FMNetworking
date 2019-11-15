@@ -12,9 +12,11 @@
 
 typedef NS_ENUM(NSInteger, FMNetworkingHandlerType) {
     FMNetworkingHandlerTypeLogout = 1,
+    FMNetworkingHandlerTypeRequestLog
+
 };
 
-typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type);
+typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type, id objc);
 
 @interface FMNetworkingManager : FMNetworkingHelper
 @property (nonatomic, assign) NSInteger codetokenError;
@@ -25,6 +27,11 @@ typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type);
 @property (nonatomic, copy) NSString *mainHostUrl;
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *token;
+@property (nonatomic, copy) NSString *tokenKeyName;
+@property (nonatomic, copy) NSString *messagekey;
+@property (nonatomic, strong) NSMutableDictionary *dicDefaultHeader;
+
+
 @property (nonatomic, copy) FMNetworkingHandler networkingHandler;
 /// 初始化全局管家
 + (instancetype)sharedInstance;

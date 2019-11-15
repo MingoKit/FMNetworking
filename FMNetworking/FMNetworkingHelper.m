@@ -12,8 +12,10 @@
 
 @implementation FMNetworkingHelper
 + (void)fm_isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTip responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
+    
     NSInteger code = [responseObject[@"code"] integerValue];
     if (code == FMNetworkingManager.sharedInstance.codeLogout) {
+        NSLog(@"responseObject-------%@",responseObject);
         [self fm_loginOut];
         return ;
     }
@@ -100,7 +102,7 @@
 + (void)fm_loginOut {
     
     if (FMNetworkingManager.sharedInstance.networkingHandler) {
-        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeLogout);
+        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeLogout, nil);
     }
 }
 
