@@ -38,13 +38,20 @@ static id  _sharedInstance = nil;
 
 -(void)setMainHostUrl:(NSString *)mainHostUrl {
     _mainHostUrl = mainHostUrl;
-    FMNetworkingManager.sharedInstance.mingoKill = ![self fm_checkKill];
+    FMNetworkingManager.sharedInstance.mingoKill = [self fm_checkKill];
 }
 - (NSMutableDictionary *)dicDefaultHeader{
     if (!_dicDefaultHeader) {
         _dicDefaultHeader =[[NSMutableDictionary alloc] init];
     }
     return _dicDefaultHeader;
+}
+
+-(NSTimeInterval)timeout {
+    if (!_timeout) {
+        _timeout = 30;
+    }
+    return _timeout;
 }
 
 +(void)fm_postUrl:(NSString *)url params:(NSDictionary *)params isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {

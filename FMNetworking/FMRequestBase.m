@@ -21,7 +21,10 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.securityPolicy.validatesDomainName = NO;
     //    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.requestSerializer.timeoutInterval = 30.0f;
+    manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
+    if (FMNetworkingManager.sharedInstance.timeout) {
+        manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
+    }
     
     [self fm_forHTTPHeaderField:dicHeader manager:manager];
     if (params == nil) {
@@ -56,7 +59,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [self fm_forHTTPHeaderField:dicHeader manager:manager];
 
-    manager.requestSerializer.timeoutInterval = 25.0f;
+    manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
     [self fm_logRequestInfo:manager isGetRequest:YES urlStr:url params:params];
     
     if (isHanderClickRequst) [FMNetworkingTools fm_showHudLoadingIndicator];
@@ -113,7 +116,8 @@
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:urlStr parameters:nil error:nil];
-    request.timeoutInterval= 25;
+    request.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
+
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
     AFHTTPResponseSerializer *responseSerializer = [AFHTTPResponseSerializer serializer];
