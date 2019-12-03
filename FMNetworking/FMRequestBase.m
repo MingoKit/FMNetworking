@@ -209,7 +209,10 @@
     }
     if (code == FMNetworkingManager.sharedInstance.codetokenError) {//token失效
         !tokenErrorBlock? :tokenErrorBlock(jsonData,code,msgStr);
-                [self fm_showReloginAlert:msgStr]; /// 重新登录
+        if (FMNetworkingManager.sharedInstance.networkingHandler) {
+            FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeTokenError, responseObject);
+        }
+        [self fm_showReloginAlert:msgStr]; /// 重新登录
         return;
     }
     if (showStatusTip) [FMNetworkingTools fm_showHudText:msgStr];

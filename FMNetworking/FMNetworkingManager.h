@@ -12,7 +12,8 @@
 
 typedef NS_ENUM(NSInteger, FMNetworkingHandlerType) {
     FMNetworkingHandlerTypeLogout = 1,
-    FMNetworkingHandlerTypeRequestLog
+    FMNetworkingHandlerTypeRequestLog,
+    FMNetworkingHandlerTypeTokenError
 
 };
 
