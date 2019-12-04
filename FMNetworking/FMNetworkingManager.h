@@ -25,7 +25,6 @@ typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type, id objc);
 @property (nonatomic, assign) NSInteger codeLogout;
 /// 超时时间
 @property (nonatomic, assign) NSTimeInterval timeout;
-
 @property (nonatomic, copy) NSString *loginClassString;
 
 @property (nonatomic, copy) NSString *mainHostUrl;

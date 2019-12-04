@@ -9,9 +9,9 @@
 #import "FMEasyShowView.h"
 
 @implementation FMNetworkingTools
+
 +(void)fm_showHudText:(NSString *)msg{
     [FMEasyShowOptions sharedFMEasyShowOptions].textStatusType = ShowTextStatusTypeMidden;
-    
     [FMEasyShowTextView showText:msg];
 }
 

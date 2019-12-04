@@ -11,7 +11,7 @@
 #import "FMNetworkingTools.h"
 
 @implementation FMNetworkingHelper
-+ (void)fm_isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTip responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
++ (void)fm_isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTip noLog:(BOOL)nolog responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
     
     NSInteger code = [responseObject[@"code"] integerValue];
     if (code == FMNetworkingManager.sharedInstance.codeLogout) {
@@ -19,7 +19,7 @@
         [self fm_loginOut];
         return ;
     }
-    [super fm_isHandleClickRequst:isHandleClickRequst showStatusTips:showStatusTip responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
+    [super fm_isHandleClickRequst:isHandleClickRequst showStatusTips:showStatusTip noLog:nolog responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
 }
 
 
