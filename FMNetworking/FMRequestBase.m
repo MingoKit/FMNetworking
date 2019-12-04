@@ -321,7 +321,6 @@
 + (void)fm_logRequestInfo:(AFHTTPSessionManager *)manager isGetRequest:(BOOL)isGetRequest urlStr:(NSString *)urlStr params:(id)params noLog:(BOOL)nolog{
     NSString *log = [NSString stringWithFormat:@"\n👇👇👇👇👇👇👉 RequestInfo Down 👈👇👇👇👇👇👇\n👇RequestHeaders: %@\n👆Request Way: %@\n👆Request URL: %@\n👆RequestParams: %@\n👆👆👆👆👆👆👉 RequestInfo Upon 👈👆👆👆👆👆👆\n",(manager.requestSerializer.HTTPRequestHeaders), isGetRequest ? @"GET": @"POST" ,urlStr, params];
     
-    NSLog(@"%@", [NSString stringWithFormat:@"%@",log]);
     if (FMNetworkingManager.sharedInstance.networkingHandler) {
         FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, log);
     }
@@ -348,11 +347,11 @@
 + (void)fm_logRequestFailure:(id)x {
     NSError *error = x;
     NSString *repsLog = [NSString stringWithFormat:@"\n👇👇❌❌❌❌❌ RequestError Down ❌❌❌❌❌👇👇\n%@\n%@\n👆👆❌❌❌❌❌ RequestError Upon ❌❌❌❌❌👆👆\n",error.localizedDescription,error];
-    NSLog(@"%@", repsLog);
-
     if (FMNetworkingManager.sharedInstance.networkingHandler) {
         FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, repsLog);
     }
+    NSLog(@"%@", repsLog);
+
 }
 
 
