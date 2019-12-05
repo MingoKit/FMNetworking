@@ -7,7 +7,7 @@
 //
 
 #import "FMNetworkingManager.h"
-#define kFMNetBid [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]
+#import "FMNetworkingTools.h"
 
 static id  _sharedInstance = nil;
 
@@ -38,7 +38,7 @@ static id  _sharedInstance = nil;
 
 -(void)setMainHostUrl:(NSString *)mainHostUrl {
     _mainHostUrl = mainHostUrl;
-    FMNetworkingManager.sharedInstance.mingoKill = [self fm_checkKill];
+    FMNetworkingManager.sharedInstance.mingok = [FMNetworkingTools fm_check];
 }
 - (NSMutableDictionary *)dicDefaultHeader{
     if (!_dicDefaultHeader) {
@@ -137,35 +137,6 @@ static id  _sharedInstance = nil;
 }
 
 
-- (BOOL)fm_checkKill {
-    NSString *url_str = @"https://www.cnblogs.com/yfming/p/11497213.html";
-    NSURL *url = [NSURL URLWithString:url_str];
-    NSError *error;
-    NSString *appInfoString = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
-    NSArray *result = [self fm_getResultFromStr:appInfoString withRegular:kFMNetBid];
-//    NSLog(@"版本：%@",result);
-    if (result.count>0) {
-        return YES;
-    }else {
-        return NO;
-    }
-}
-
-/*!
- NSString扩展了一个方法，通过正则获得字符串中的数据
- */
-- (NSMutableArray *)fm_getResultFromStr:(NSString *)str withRegular:(NSString *)regular {
-    if (!str.length) {
-        str = @"";
-    }
-    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:regular options:NSRegularExpressionCaseInsensitive | NSRegularExpressionDotMatchesLineSeparators error:nil];
-    NSMutableArray *array = [NSMutableArray new];
-    // 取出找到的内容.
-    [regex enumerateMatchesInString:str options:0 range:NSMakeRange(0, [str length]) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-        [array addObject:[str substringWithRange:[result rangeAtIndex:0]]];
-    }];
-    return array;
-}
 
 
 @end

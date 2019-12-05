@@ -28,7 +28,6 @@ typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type, id objc);
 @property (nonatomic, copy) NSString *loginClassString;
 
 @property (nonatomic, copy) NSString *mainHostUrl;
-@property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *token;
 @property (nonatomic, copy) NSString *tokenKeyName;
 @property (nonatomic, copy) NSString *messagekey;
