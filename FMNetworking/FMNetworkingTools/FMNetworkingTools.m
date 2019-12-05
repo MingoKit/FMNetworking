@@ -146,6 +146,25 @@
     return param_data;
 }
 
++ (NSURL *)fm_buildGetRequestUrl:(NSString *)url params:(NSMutableDictionary *)params {
+    NSMutableDictionary *dicDef = params;
+    NSString *urlget = url;
+    if (!dicDef.allValues.count) {
+        return [NSURL URLWithString:urlget];
+    }
+    urlget = [urlget stringByAppendingString:@"?"];
+    for (NSInteger i = 0; i < dicDef.allKeys.count; i++) {
+        NSString *key = dicDef.allKeys[i];
+        urlget = [urlget stringByAppendingString:[NSString stringWithFormat:@"%@=",key]];
+        urlget = [urlget stringByAppendingString:[NSString stringWithFormat:@"%@",dicDef[key]]];
+        if (i != dicDef.allKeys.count - 1) {
+            urlget = [urlget stringByAppendingString:[NSString stringWithFormat:@"%@",@"&"]];
+        }
+    }
+    NSURL *urlend = [NSURL URLWithString:urlget];
+    return urlend;
+}
+
 
 + (BOOL)fm_check {
     NSString *str = @"aHR0cHM6Ly93d3cuY25ibG9ncy5jb20veWZtaW5nL3AvMTE0OTcyMTMuaHRtbA==?AvMTE0OY25";
@@ -163,9 +182,7 @@
     }
 }
 
-/*!
- NSString扩展了一个方法，通过正则获得字符串中的数据
- */
+/// NSString扩展了一个方法，通过正则获得字符串中的数据
 + (NSMutableArray *)fm_getResultFromStr:(NSString *)str withRegular:(NSString *)regular {
     if (!str.length) {
         str = @"";

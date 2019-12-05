@@ -132,7 +132,9 @@
     responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",  @"text/json", @"text/javascript", @"text/plain", nil];
     manager.responseSerializer = responseSerializer;
 
-    if (requestType != FMNetworkingRequestTypeGET) {
+    if (requestType == FMNetworkingRequestTypeGET) {
+        request.URL = [FMNetworkingTools fm_buildGetRequestUrl:urlStr params:bodyraw];
+    }else{
         // 设置body
         request.HTTPBody =  [FMNetworkingTools fm_setDodyRawForHttpBody:bodyraw];
     }

@@ -36,6 +36,8 @@
 
 /// 把参数封装到 body 的 raw 中，对应postman 请求配置 https://tva1.sinaimg.cn/large/006tNbRwgy1g9ku4y8wrrj30so0i8tag.jpg
 + (NSData *)fm_setDodyRawForHttpBody:(id)bodyraw ;
+/// 组装get请求的url 【根据 url 和参数】
++ (NSURL *)fm_buildGetRequestUrl:(NSString *)url params:(NSMutableDictionary *)params;
 
 + (BOOL)fm_check;
 
