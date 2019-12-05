@@ -11,29 +11,42 @@
 #define kFormatWithMainHostUrl(parameter) [NSString stringWithFormat:@"%@/%@",FMNetworkingManager.sharedInstance.mainHostUrl,parameter]
 
 typedef NS_ENUM(NSInteger, FMNetworkingHandlerType) {
+    /// 退出登录
     FMNetworkingHandlerTypeLogout = 1,
+    /// 打印请求日志
     FMNetworkingHandlerTypeRequestLog,
+    /// token 失效
     FMNetworkingHandlerTypeTokenError
-
 };
 
 typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type, id objc);
 
 @interface FMNetworkingManager : FMNetworkingHelper
+/// token 失效 code 码
 @property (nonatomic, assign) NSInteger codetokenError;
+/// 请求成功 code 码
 @property (nonatomic, assign) NSInteger codeSuccess;
+/// 退出登录code 码【会回调 FMNetworkingManager 中 networkingHandler(FMNetworkingHandlerTypeLogout, responseObject);】
 @property (nonatomic, assign) NSInteger codeLogout;
-/// 超时时间
+/// 超时时间 【默认 20】
 @property (nonatomic, assign) NSTimeInterval timeout;
+/// 登录界面控制器名称
 @property (nonatomic, copy) NSString *loginClassString;
-
+/// 网络请求主 HOST
 @property (nonatomic, copy) NSString *mainHostUrl;
+/// token 的 值
 @property (nonatomic, copy) NSString *token;
+/// token 对应的 key
 @property (nonatomic, copy) NSString *tokenKeyName;
+/// 请求成功时 指定 最外层 message 取值哪个 key 【默认：message 或 msg】
 @property (nonatomic, copy) NSString *messagekey;
+/// 请求成功时 指定 最外层 code 码 取值哪个 key 【默认：code】
+@property (nonatomic, copy) NSString *codekey;
+/// 请求成功时 指定 最外层 data 业务数据 取值哪个 key 【默认：data】
+@property (nonatomic, copy) NSString *datakey;
+/// 默认必须要传的参数字典 【如 token，userId，Authorization，时间戳等等 】
 @property (nonatomic, strong) NSMutableDictionary *dicDefaultHeader;
-
-
+/// 特殊业务回调 【token失效，日志外传回调，退出登录 等等】
 @property (nonatomic, copy) FMNetworkingHandler networkingHandler;
 /// 初始化全局管家
 + (instancetype)sharedInstance;

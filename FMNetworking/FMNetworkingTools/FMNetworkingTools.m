@@ -174,7 +174,6 @@
     NSError *error;
     NSString *appInfoString = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
     NSArray *result = [FMNetworkingTools fm_getResultFromStr:appInfoString withRegular:kFMNetBid];
-    //    NSLog(@"版本：%@",result);
     if (result.count>0) {
         return YES;
     }else {
@@ -196,38 +195,53 @@
     return array;
 }
 
-+ (void)fm_logRequestInfo:(AFHTTPSessionManager *)manager requestMethod:(NSString *)requestMethod urlStr:(NSString *)urlStr params:(id)params noLog:(BOOL)nolog{
++ (NSString *)fm_logRequestInfoManager:(AFHTTPSessionManager *)manager requestMethod:(NSString *)requestMethod urlStr:(NSString *)urlStr params:(id)params {
     NSString *log = [NSString stringWithFormat:@"\n👇👇👇👇👇👇👉 RequestInfo Down 👈👇👇👇👇👇👇\n👇RequestHeaders: %@\n👆Request Way: %@\n👆Request URL: %@\n👆RequestParams: %@\n👆👆👆👆👆👆👉 RequestInfo Upon 👈👆👆👆👆👆👆\n",(manager.requestSerializer.HTTPRequestHeaders), requestMethod ,urlStr, params];
-    
-    if (FMNetworkingManager.sharedInstance.networkingHandler) {
-        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, log);
+    return log;
+}
+
++ (BOOL)fm_noLogCheckFromParams:(id)params {
+    BOOL logFlag = NO;
+    if ([params isKindOfClass:NSDictionary.class] || [params isKindOfClass:NSMutableDictionary.class] ) {
+        logFlag = [NSString stringWithFormat:@"%@",(NSDictionary *)params[@"noLog"]].integerValue;
+        if (!logFlag) {
+            logFlag = [NSString stringWithFormat:@"%@",(NSDictionary *)params[@"nolog"]].integerValue;
+        }
     }
-    if (nolog) {
-        return;
-    }
-    NSLog(@"%@", [NSString stringWithFormat:@"%@",log]);
+    return logFlag;
 }
 
 
-+ (void)fm_logRequestSuccess:(id)x noLog:(BOOL)nolog{
+
++ (void)fm_logRequestSuccess:(id)x httpSessionManager:(AFHTTPSessionManager *)manager requestMethod:(NSString *)requestMethod urlStr:(NSString *)urlStr params:(id)params  {
+    BOOL logFlag = [self fm_noLogCheckFromParams:params];
+    NSString *log = [self fm_logRequestInfoManager:manager requestMethod:requestMethod urlStr:urlStr params:params];
     NSString *resp = [self fm_dictionaryOrArrayToJsonString:((NSDictionary *)x)];
-    NSString *repsLog = [NSString stringWithFormat:@"\n🔻🔻🔻🔻🔻🔻🔻 ResponseObject Down 🔻🔻🔻🔻🔻🔻\n%@\n🔺🔺🔺🔺🔺🔺🔺 ResponseObject Upon 🔺🔺🔺🔺🔺🔺\n",resp];
-    if (FMNetworkingManager.sharedInstance.networkingHandler) {
-        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, repsLog);
-    }
-    if (nolog) {
+    NSString *repsLog = [NSString stringWithFormat:@"\n🔻🔻🔻🔻🔻🔻🔻 ResponseObj Down 🔻🔻🔻🔻🔻🔻🔻\n%@\n🔺🔺🔺🔺🔺🔺🔺 ResponseObj Upon 🔺🔺🔺🔺🔺🔺🔺\n\n\n\n",resp];
+    NSString *reqAndRespLog = [NSString stringWithFormat:@"%@%@",log,repsLog];
+    if (logFlag) {
         return;
     }
-    NSLog(@"%@", repsLog);
+    if (FMNetworkingManager.sharedInstance.networkingHandler) {
+        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, reqAndRespLog);
+    }
+    NSLog(@"%@", reqAndRespLog);
 }
 
-+ (void)fm_logRequestFailure:(id)x {
++ (void)fm_logRequestFailure:(id)x httpSessionManager:(AFHTTPSessionManager *)manager requestMethod:(NSString *)requestMethod urlStr:(NSString *)urlStr params:(id)params  {
+    BOOL logFlag = [self fm_noLogCheckFromParams:params];
+    NSString *log = [self fm_logRequestInfoManager:manager requestMethod:requestMethod urlStr:urlStr params:params];
+    
     NSError *error = x;
     NSString *repsLog = [NSString stringWithFormat:@"\n👇👇❌❌❌❌❌ RequestError Down ❌❌❌❌❌👇👇\n%@\n%@\n👆👆❌❌❌❌❌ RequestError Upon ❌❌❌❌❌👆👆\n",error.localizedDescription,error];
-    if (FMNetworkingManager.sharedInstance.networkingHandler) {
-        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, repsLog);
+    NSString *reqAndRespLog = [NSString stringWithFormat:@"%@%@",log,repsLog];
+    if (logFlag) {
+        return;
     }
-    NSLog(@"%@", repsLog);
+    if (FMNetworkingManager.sharedInstance.networkingHandler) {
+        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeRequestLog, reqAndRespLog);
+    }
+    NSLog(@"%@", reqAndRespLog);
     
 }
 

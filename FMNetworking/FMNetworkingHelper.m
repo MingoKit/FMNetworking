@@ -11,16 +11,16 @@
 #import "FMNetworkingTools.h"
 
 @implementation FMNetworkingHelper
-+ (void)fm_isHandleClickRequst:(BOOL)isHandleClickRequst showStatusTips:(BOOL)showStatusTip noLog:(BOOL)nolog responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
-    
-    NSInteger code = [responseObject[@"code"] integerValue];
-    if (code == FMNetworkingManager.sharedInstance.codeLogout) {
-        NSLog(@"responseObject-------%@",responseObject);
-        [self fm_loginOut];
-        return ;
-    }
-    [super fm_isHandleClickRequst:isHandleClickRequst showStatusTips:showStatusTip noLog:nolog responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
-}
+//+ (void)fm_showIndicatorHud:(BOOL)showIndicatorHud showStatusTips:(BOOL)showStatusTip noLog:(BOOL)nolog responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
+//    
+//    NSInteger code = [responseObject[@"code"] integerValue];
+//    if (code == FMNetworkingManager.sharedInstance.codeLogout) {
+//        NSLog(@"responseObject-------%@",responseObject);
+//        [self fm_loginOut];
+//        return ;
+//    }
+//    [super fm_showIndicatorHud:showIndicatorHud showStatusTips:showStatusTip noLog:nolog responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
+//}
 
 
 /// 上传用户图片  头像
@@ -99,12 +99,6 @@
     }];
 }
 
-+ (void)fm_loginOut {
-    
-    if (FMNetworkingManager.sharedInstance.networkingHandler) {
-        FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeLogout, nil);
-    }
-}
 
 
 @end

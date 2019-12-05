@@ -10,8 +10,8 @@
 #import "FMNetworkingTools.h"
 
 static id  _sharedInstance = nil;
-
 @interface FMNetworkingManager()<NSCopying,NSMutableCopying>
+
 @end
 @implementation FMNetworkingManager
 
@@ -49,7 +49,7 @@ static id  _sharedInstance = nil;
 
 -(NSTimeInterval)timeout {
     if (!_timeout) {
-        _timeout = 30;
+        _timeout = 20;
     }
     return _timeout;
 }
@@ -59,7 +59,6 @@ static id  _sharedInstance = nil;
         if (successBlock) successBlock(responseObject,code,msgStr);
         
     } successTokenErrorBlock:nil successNotNeedBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
-//        if (successBlock) successBlock(responseObject,code,msgStr);
         
     } failureBlock:^(NSError *error , id objc) {
         if (failureBlock) failureBlock(error,objc);
@@ -126,7 +125,6 @@ static id  _sharedInstance = nil;
         if (successBlock) successBlock(responseObject,code,msgStr);
         
     } successTokenErrorBlock:nil successNotNeedBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
-//        if (successBlock) successBlock(responseObject,code,msgStr);
         
     } failureBlock:^(NSError *error , id objc) {
         NSInteger tim = times;
