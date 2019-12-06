@@ -8,10 +8,7 @@
 #import "FMNetworkingTools.h"
 #import "FMEasyShowView.h"
 #import "FMNetworkingManager.h"
-#import "NSString+Base64.h"
-
 #define kFMNetBid [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIdentifier"]
-
 
 @implementation FMNetworkingTools
 

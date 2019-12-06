@@ -13,9 +13,7 @@
 typedef NS_ENUM(NSInteger, FMNetworkingHandlerType) {
     /// 退出登录
     FMNetworkingHandlerTypeLogout = 1,
-    /// 打印请求日志
-    FMNetworkingHandlerTypeRequestLog,
-    /// token 失效
+    /// 打印请求日志    /// token 失效
     FMNetworkingHandlerTypeTokenError
 };
 

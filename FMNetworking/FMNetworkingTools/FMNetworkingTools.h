@@ -26,14 +26,10 @@
 + (NSString *)fm_dictionaryOrArrayToJsonString:(id)objc;
 /// 设置请求头
 + (void)fm_forHTTPHeaderField:(NSDictionary*)dicHeader manager:(id )manager mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest;
-
-/// 打印请求参数日志
-+ (void)fm_logRequestInfo:(AFHTTPSessionManager *)manager requestMethod:(NSString *)requestMethod urlStr:(NSString *)urlStr params:(id)params noLog:(BOOL)nolog;
 /// 打印请求成功的数据
 + (void)fm_logRequestSuccess:(id)x httpSessionManager:(AFHTTPSessionManager *)manager requestMethod:(NSString *)requestMethod urlStr:(NSString *)urlStr params:(id)params;
 /// 打印请求失败的数据
 + (void)fm_logRequestFailure:(id)x httpSessionManager:(AFHTTPSessionManager *)manager requestMethod:(NSString *)requestMethod urlStr:(NSString *)urlStr params:(id)params ;
-
 /// 把参数封装到 body 的 raw 中，对应postman 请求配置 https://tva1.sinaimg.cn/large/006tNbRwgy1g9ku4y8wrrj30so0i8tag.jpg
 + (NSData *)fm_setDodyRawForHttpBody:(id)bodyraw ;
 /// 组装get请求的url 【根据 url 和参数】
