@@ -13,18 +13,20 @@
 @implementation FMRequestBase
 
 
-+ (void)fm_postRequest:(NSString *)url params:(NSDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))constructingBodyblock progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
++ (void)fm_postRequest:(NSString *)url params:(NSMutableDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))constructingBodyblock progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
     
     NSString *urlStr = [FMNetworkingTools fm_checkRequestUrl:url];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    // 是否在证书域字段中验证域名
+    [manager.securityPolicy setValidatesDomainName:NO];
     manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
     if (FMNetworkingManager.sharedInstance.timeout) {
         manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
     }
     [FMNetworkingTools fm_forHTTPHeaderField:dicHeader manager:manager mutableURLRequest:nil];
     if (params == nil) {
-        params = @{};
+        params = @{}.mutableCopy;
     }
     if (showIndicator) [FMNetworkingTools fm_showHudLoadingIndicator];
     [manager POST:urlStr parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -50,7 +52,7 @@
     
 }
 
-+ (void)fm_getUrl:(NSString *)url params:(NSDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip  progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
++ (void)fm_getUrl:(NSString *)url params:(NSMutableDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip  progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
     /*
     if (![url containsString:@"http"]) url = kFormatWithMainHostUrl(url);
     NSString *urlString = [NSURL URLWithString:url] ? url : [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];// 检查地址中是否有中文

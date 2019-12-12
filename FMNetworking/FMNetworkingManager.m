@@ -54,7 +54,7 @@ static id  _sharedInstance = nil;
     return _timeout;
 }
 
-+(void)fm_postUrl:(NSString *)url params:(NSDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
++(void)fm_postUrl:(NSString *)url params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
     [FMNetworkingManager fm_postRequest:url params:params forHTTPHeaderField:nil showIndicator:showIndicator showStatusTip:showStatusTip constructingBodyWithBlock:nil progress:nil successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         if (successBlock) successBlock(responseObject,code,msgStr);
         
@@ -65,7 +65,7 @@ static id  _sharedInstance = nil;
     }];
 }
 
-+(void)fm_postUrlCodeYourself:(NSString *)url params:(NSDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
++(void)fm_postUrlCodeYourself:(NSString *)url params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
     [FMNetworkingManager fm_postRequest:url params:params forHTTPHeaderField:nil showIndicator:showIndicator showStatusTip:showStatusTip constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         
     } progress:^(NSProgress *uploadProgress, CGFloat progress) {
@@ -83,7 +83,7 @@ static id  _sharedInstance = nil;
 }
 
 
-+(void)fm_getUrl:(NSString *)url params:(NSDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
++(void)fm_getUrl:(NSString *)url params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
     [FMNetworkingManager fm_getUrl:url params:params forHTTPHeaderField:nil showIndicator:showIndicator showStatusTip:showStatusTip progress:^(NSProgress *uploadProgress, CGFloat progress) {
         
     } successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
@@ -98,7 +98,7 @@ static id  _sharedInstance = nil;
     }];
 }
 
-+(void)fm_getUrlCodeYourself:(NSString *)url params:(NSDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
++(void)fm_getUrlCodeYourself:(NSString *)url params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock {
     [FMNetworkingManager fm_getUrl:url params:params forHTTPHeaderField:nil showIndicator:showIndicator showStatusTip:showStatusTip progress:^(NSProgress *uploadProgress, CGFloat progress) {
         
     } successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
@@ -114,13 +114,13 @@ static id  _sharedInstance = nil;
 }
 
 
-+(void)fm_postUrl:(NSString *)url params:(NSDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock {
++(void)fm_postUrl:(NSString *)url params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock {
     [self fm_postUrl:url params:params showIndicator:showIndicator showStatusTip:showStatusTip successBlock:successBlock failureBlock:^(NSError *error, id objc) {
         
     }];
 }
 
-+(void)fm_postRepeatedlyUrl:(NSString *)url failureTimes:(NSInteger)times params:(NSDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
++(void)fm_postRepeatedlyUrl:(NSString *)url failureTimes:(NSInteger)times params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
     [FMNetworkingManager fm_postRequest:url params:params forHTTPHeaderField:nil showIndicator:showIndicator showStatusTip:showStatusTip constructingBodyWithBlock:nil progress:nil successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         if (successBlock) successBlock(responseObject,code,msgStr);
         
