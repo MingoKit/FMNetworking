@@ -9,7 +9,8 @@
 @class AFHTTPSessionManager;
 
 @interface FMNetworkingTools : NSObject
-
+/// 检查输入控件是否为空 支持 NSString UITextField UITextView
++ (BOOL)fm_notEmptyInputObjcView:(id)objcView  tip:(NSString *)tip;
 //提示框四秒
 +(void)fm_showHudText:(NSString *)msg;
 

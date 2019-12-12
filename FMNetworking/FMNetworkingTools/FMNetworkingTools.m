@@ -12,6 +12,26 @@
 
 @implementation FMNetworkingTools
 
+
++ (BOOL)fm_notEmptyInputObjcView:(id)objcView  tip:(NSString *)tip{
+    BOOL isEmpty = NO;
+    
+    if ([objcView isKindOfClass:NSString.class] && ((NSString *)(objcView)).length <= 0) {
+        isEmpty = YES;
+    }
+    if ([objcView isKindOfClass:UITextField.class] && ((UITextField *)(objcView)).text.length <= 0) {
+        isEmpty = YES;
+    }
+    if ([objcView isKindOfClass:UITextView.class] && ((UITextView *)(objcView)).text.length <= 0) {
+        isEmpty = YES;
+    }
+    if (isEmpty) {
+        [FMNetworkingTools fm_showHudText:tip];
+    }
+    return isEmpty;
+}
+
+
 +(void)fm_showHudText:(NSString *)msg{
     [FMEasyShowOptions sharedFMEasyShowOptions].textStatusType = ShowTextStatusTypeMidden;
     [FMEasyShowTextView showText:msg];
