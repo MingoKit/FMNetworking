@@ -11,7 +11,7 @@
 #import "FMNetworkingTools.h"
 
 @implementation FMNetworkingHelper
-//+ (void)fm_showIndicatorHud:(BOOL)showIndicatorHud showStatusTips:(BOOL)showStatusTip noLog:(BOOL)nolog responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
+//+ (void)fm_showIndicator:(BOOL)showIndicator showStatusTips:(BOOL)showStatusTip noLog:(BOOL)nolog responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
 //    
 //    NSInteger code = [responseObject[@"code"] integerValue];
 //    if (code == FMNetworkingManager.sharedInstance.codeLogout) {
@@ -19,13 +19,13 @@
 //        [self fm_loginOut];
 //        return ;
 //    }
-//    [super fm_showIndicatorHud:showIndicatorHud showStatusTips:showStatusTip noLog:nolog responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
+//    [super fm_showIndicator:showIndicator showStatusTips:showStatusTip noLog:nolog responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
 //}
 
 
 /// 上传用户图片  头像
 + (void)fm_uploadImagesUrl:(NSString *)urlString params:(id)params arrImagesOrFileNsdata:(id)imagesOrData progress:(RequestProgressBlock)progressBlock success:(RequestSuccessBlock)successBlock  {
-    [FMNetworkingManager fm_postRequest:urlString params:params forHTTPHeaderField:nil isHanderClickRequst:YES showStatusTip:YES constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [FMNetworkingManager fm_postRequest:urlString params:params forHTTPHeaderField:nil showIndicator:YES showStatusTip:YES constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         if ([imagesOrData isKindOfClass:NSArray.class] || [imagesOrData isKindOfClass:NSMutableArray.class]) {
             //如果是传多张图片
             NSArray *images = [NSArray arrayWithArray:imagesOrData];
@@ -59,7 +59,7 @@
 }
 
 /// 上传 base64 图片 
-+ (void)fm_uploadBase64ImageUrl:(NSString *)urlString image:(UIImage *)image isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip progress:(RequestProgressBlock)progressBlock success:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
++ (void)fm_uploadBase64ImageUrl:(NSString *)urlString image:(UIImage *)image showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip progress:(RequestProgressBlock)progressBlock success:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
     
     NSData *data = UIImageJPEGRepresentation(image, 0.4f);
     NSString *base64Data = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
@@ -70,7 +70,7 @@
     NSDictionary *dic = @{
                           @"base64Data":base64Data
                           };
-    [FMNetworkingManager fm_postRequest:urlString params:dic forHTTPHeaderField:nil isHanderClickRequst:isHanderClickRequst showStatusTip:showStatusTip constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [FMNetworkingManager fm_postRequest:urlString params:dic forHTTPHeaderField:nil showIndicator:showIndicator showStatusTip:showStatusTip constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
     
     } progress:^(NSProgress *uploadProgress, CGFloat progress) {
         if (progressBlock) progressBlock(uploadProgress,progress);
@@ -87,8 +87,8 @@
     }];
 }
 
-+ (void)fm_postDodyrawUrl:(NSString *)url bodyraw:(id)bodyraw isHandleClick:(BOOL)isHandleClick showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock  {
-    [self fm_postSetDodyRawUrl:url bodyraw:bodyraw forHttpHeader:nil showIndicatorHud:isHandleClick showStatusTips:showStatusTips successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
++ (void)fm_postDodyrawUrl:(NSString *)url bodyraw:(id)bodyraw showIndicator:(BOOL)showIndicator showStatusTips:(BOOL)showStatusTips  successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock  {
+    [self fm_postSetDodyRawUrl:url bodyraw:bodyraw forHttpHeader:nil showIndicator:showIndicator showStatusTips:showStatusTips successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         if (successBlock) successBlock(responseObject,code,msgStr);
     } successTokenErrorBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         

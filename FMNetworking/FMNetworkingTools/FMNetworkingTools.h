@@ -38,5 +38,6 @@
 
 + (BOOL)fm_check;
 
++ (NSString *)fm_checkRequestUrl:(NSString *)url;
 
 @end

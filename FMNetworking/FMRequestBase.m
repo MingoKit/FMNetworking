@@ -13,28 +13,21 @@
 @implementation FMRequestBase
 
 
-+ (void)fm_postRequest:(NSString *)url params:(NSDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))constructingBodyblock progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
-    /*
-    if (![url containsString:@"http"]) url = kFormatWithMainHostUrl(url);
-    NSString *urlString = [NSURL URLWithString:url] ? url : [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];// 检查地址中是否有中文
++ (void)fm_postRequest:(NSString *)url params:(NSDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))constructingBodyblock progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
     
+    NSString *urlStr = [FMNetworkingTools fm_checkRequestUrl:url];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.securityPolicy.validatesDomainName = NO;
-    //    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
     if (FMNetworkingManager.sharedInstance.timeout) {
         manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
     }
-    
     [FMNetworkingTools fm_forHTTPHeaderField:dicHeader manager:manager mutableURLRequest:nil];
     if (params == nil) {
         params = @{};
     }
-
-    BOOL log = [NSString stringWithFormat:@"%@",(NSDictionary *)params[@"noLog"]].integerValue;
-    [FMNetworkingTools fm_logRequestInfo:manager requestMethod:NO urlStr:url params:params noLog:log];
-    if (isHanderClickRequst) [FMNetworkingTools fm_showHudLoadingIndicator];
-    [manager POST:urlString parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    if (showIndicator) [FMNetworkingTools fm_showHudLoadingIndicator];
+    [manager POST:urlStr parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         if (constructingBodyblock) constructingBodyblock(formData);
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -42,22 +35,22 @@
         !progressBlock? :progressBlock(uploadProgress,progress);
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self fm_showIndicatorHud:isHanderClickRequst showStatusTips:showStatusTip noLog:log responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
+        [self fm_responseObject:responseObject httpSessionManager:manager requestMethod:@"POST Params" urlStr:urlStr params:params showIndicator:showIndicator showStatusTip:showStatusTip successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (isHanderClickRequst) {
+        if (showIndicator) {
             [FMNetworkingTools fm_hidenHudIndicator];
         }
         if (showStatusTip) [FMNetworkingTools fm_showHudText:[NSString stringWithFormat:@"%@",error.localizedDescription]];
-        [FMNetworkingTools fm_logRequestFailure:error];
+        [FMNetworkingTools fm_logRequestFailure:error httpSessionManager:manager requestMethod:@"POST Params" urlStr:urlStr params:params];
         !failureBlock? :failureBlock(error,nil);
-    }];*/
+    }];
     
-    [self fm_requestDodyRawUrl:url requestType:FMNetworkingRequestTypePOST bodyraw:params forHttpHeader:dicHeader showIndicatorHud:isHanderClickRequst showStatusTip:showStatusTip successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock failureBlock:failureBlock];
+//    [self fm_requestDodyRawUrl:url requestType:FMNetworkingRequestTypePOST bodyraw:params forHttpHeader:dicHeader showIndicator:showIndicator showStatusTip:showStatusTip successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock failureBlock:failureBlock];
     
 }
 
-+ (void)fm_getUrl:(NSString *)url params:(NSDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader isHanderClickRequst:(BOOL)isHanderClickRequst showStatusTip:(BOOL)showStatusTip  progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
++ (void)fm_getUrl:(NSString *)url params:(NSDictionary *)params forHTTPHeaderField:(NSDictionary *)dicHeader showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip  progress:(RequestProgressBlock)progressBlock successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
     /*
     if (![url containsString:@"http"]) url = kFormatWithMainHostUrl(url);
     NSString *urlString = [NSURL URLWithString:url] ? url : [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];// 检查地址中是否有中文
@@ -68,30 +61,30 @@
     BOOL log = [NSString stringWithFormat:@"%@",(NSDictionary *)params[@"noLog"]].integerValue;
     [FMNetworkingTools fm_logRequestInfo:manager requestMethod:YES urlStr:url params:params noLog:log];
 
-    if (isHanderClickRequst) [FMNetworkingTools fm_showHudLoadingIndicator];
+    if (showIndicator) [FMNetworkingTools fm_showHudLoadingIndicator];
     [manager GET:urlString parameters:params progress:^(NSProgress * _Nonnull downloadProgress) {
         CGFloat progress = 1.0 * downloadProgress.completedUnitCount / downloadProgress.totalUnitCount;
         !progressBlock? :progressBlock(downloadProgress,progress);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-         [self fm_showIndicatorHud:isHanderClickRequst showStatusTips:showStatusTip noLog:log  responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
+         [self fm_showIndicator:showIndicator showStatusTips:showStatusTip noLog:log  responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (isHanderClickRequst) [FMNetworkingTools fm_hidenHudIndicator];
+        if (showIndicator) [FMNetworkingTools fm_hidenHudIndicator];
         if (showStatusTip) [FMNetworkingTools fm_showHudText:[NSString stringWithFormat:@"%@",error.localizedDescription]];
         [FMNetworkingTools fm_logRequestFailure:error];
         !failureBlock? :failureBlock(error,nil);
     }];
     */
-    [self fm_requestDodyRawUrl:url requestType:FMNetworkingRequestTypeGET bodyraw:params forHttpHeader:dicHeader showIndicatorHud:isHanderClickRequst showStatusTip:showStatusTip successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock failureBlock:failureBlock];
+    [self fm_requestDodyRawUrl:url requestType:FMNetworkingRequestTypeGET bodyraw:params forHttpHeader:dicHeader showIndicator:showIndicator showStatusTip:showStatusTip successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock failureBlock:failureBlock];
 }
 
 
 
-+ (void)fm_postSetDodyRawUrl:(NSString *)url bodyraw:(id)bodyraw forHttpHeader:(NSDictionary *)dicHeader showIndicatorHud:(BOOL)showIndicatorHud showStatusTips:(BOOL)showStatusTips successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
-    [self fm_requestDodyRawUrl:url requestType:FMNetworkingRequestTypePOST bodyraw:bodyraw forHttpHeader:dicHeader showIndicatorHud:showIndicatorHud showStatusTip:showStatusTips successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock failureBlock:failureBlock];
++ (void)fm_postSetDodyRawUrl:(NSString *)url bodyraw:(id)bodyraw forHttpHeader:(NSDictionary *)dicHeader showIndicator:(BOOL)showIndicator showStatusTips:(BOOL)showStatusTips successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
+    [self fm_requestDodyRawUrl:url requestType:FMNetworkingRequestTypePOST bodyraw:bodyraw forHttpHeader:dicHeader showIndicator:showIndicator showStatusTip:showStatusTips successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock failureBlock:failureBlock];
 }
 
-+ (void)fm_deleteDodyRawUrl:(NSString *)url bodyraw:(id)bodyraw forHttpHeader:(NSDictionary *)dicHeader showIndicatorHud:(BOOL)showIndicatorHud showStatusTips:(BOOL)showStatusTips successOkBlock:(RequestSuccessBlock)successOkBlock  failureBlock:(RequestFailureBlock)failureBlock {
-    [self fm_requestDodyRawUrl:url requestType:FMNetworkingRequestTypeDELETE bodyraw:bodyraw forHttpHeader:dicHeader showIndicatorHud:showIndicatorHud showStatusTip:showStatusTips successOkBlock:successOkBlock successTokenErrorBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
++ (void)fm_deleteDodyRawUrl:(NSString *)url bodyraw:(id)bodyraw forHttpHeader:(NSDictionary *)dicHeader showIndicator:(BOOL)showIndicator showStatusTips:(BOOL)showStatusTips successOkBlock:(RequestSuccessBlock)successOkBlock  failureBlock:(RequestFailureBlock)failureBlock {
+    [self fm_requestDodyRawUrl:url requestType:FMNetworkingRequestTypeDELETE bodyraw:bodyraw forHttpHeader:dicHeader showIndicator:showIndicator showStatusTip:showStatusTips successOkBlock:successOkBlock successTokenErrorBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         
     } successNotNeedBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         
@@ -100,19 +93,15 @@
 }
 
 
-+ (void)fm_requestDodyRawUrl:(NSString *)url requestType:(FMNetworkingRequestType)requestType bodyraw:(id)bodyraw forHttpHeader:(NSDictionary *)dicHeader showIndicatorHud:(BOOL)showIndicatorHud showStatusTip:(BOOL)showStatusTip successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
-    NSString *urlStr = url;
-    if (!url.length) return;
-    if (![url containsString:@"http"]) urlStr = kFormatWithMainHostUrl(url);
-    urlStr = [NSURL URLWithString:urlStr] ? urlStr : [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];// 检查地址中是否有中文
++ (void)fm_requestDodyRawUrl:(NSString *)url requestType:(FMNetworkingRequestType)requestType bodyraw:(id)bodyraw forHttpHeader:(NSDictionary *)dicHeader showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock failureBlock:(RequestFailureBlock)failureBlock {
+    NSString *urlStr = [FMNetworkingTools fm_checkRequestUrl:url];
     NSString *requestMethod = [self fm_requestMethodWithType:requestType];
-
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     NSMutableURLRequest *request =  [self fm_bulidSessionManager:urlStr requestType:requestType bodyraw:bodyraw];
     manager.responseSerializer = [self fm_bulidResponseSerializer];
    
     [FMNetworkingTools fm_forHTTPHeaderField:dicHeader manager:manager mutableURLRequest:request];
-    if (showIndicatorHud) [FMNetworkingTools fm_showHudLoadingIndicator];
+    if (showIndicator) [FMNetworkingTools fm_showHudLoadingIndicator];
     
     [[manager dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -120,17 +109,17 @@
         
     } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         if (error) {
-            if (showIndicatorHud)  [FMNetworkingTools fm_hidenHudIndicator];
+            if (showIndicator)  [FMNetworkingTools fm_hidenHudIndicator];
             if (showStatusTip && error.localizedDescription) {
                 [FMNetworkingTools fm_showHudText:[NSString stringWithFormat:@"%@",error.localizedDescription]];
             }
             [FMNetworkingTools fm_logRequestFailure:error httpSessionManager:manager requestMethod:requestMethod urlStr:urlStr params:bodyraw];
             !failureBlock? :failureBlock(error,nil);
         } else {
-            if (showIndicatorHud) [FMNetworkingTools fm_hidenHudIndicator];
+            if (showIndicator) [FMNetworkingTools fm_hidenHudIndicator];
             
             NSDictionary * dicJson = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-            [self fm_responseObject:dicJson httpSessionManager:manager requestMethod:requestMethod urlStr:urlStr params:bodyraw showIndicatorHud:showIndicatorHud showStatusTip:showStatusTip successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
+            [self fm_responseObject:dicJson httpSessionManager:manager requestMethod:requestMethod urlStr:urlStr params:bodyraw showIndicator:showIndicator showStatusTip:showStatusTip successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
         }
     }] resume];;
 }
@@ -179,7 +168,7 @@
     return responseSerializer;
 }
 
-+ (void)fm_responseObject:(id)responseObject httpSessionManager:(AFHTTPSessionManager *)manager requestMethod:(NSString *)requestMethod urlStr:(NSString *)urlStr params:(id)params showIndicatorHud:(BOOL)showIndicatorHud showStatusTip:(BOOL)showStatusTip  successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
++ (void)fm_responseObject:(id)responseObject httpSessionManager:(AFHTTPSessionManager *)manager requestMethod:(NSString *)requestMethod urlStr:(NSString *)urlStr params:(id)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip  successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
     if (FMNetworkingManager.sharedInstance.mingok) {
         return;
     }
@@ -202,7 +191,7 @@
     }
     id jsonData = responseObject[dataStr];
     NSInteger code = [responseObject[codeStr] integerValue];
-    if (showIndicatorHud) [FMNetworkingTools fm_hidenHudIndicator];
+    if (showIndicator) [FMNetworkingTools fm_hidenHudIndicator];
     
     !notNeedBlock? :notNeedBlock(jsonData,code,msgStr);
 

@@ -262,4 +262,12 @@
     
 }
 
++ (NSString *)fm_checkRequestUrl:(NSString *)url {
+    NSString *urlStr = url;
+    if (!urlStr.length) return @"";
+    if (![urlStr containsString:@"http"]) urlStr = kFormatWithMainHostUrl(url);
+    // 检查地址中是否有中文
+    urlStr = [NSURL URLWithString:urlStr] ? urlStr : [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
+    return urlStr;
+}
 @end
