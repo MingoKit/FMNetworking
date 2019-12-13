@@ -17,10 +17,14 @@
     
     NSString *urlStr = [FMNetworkingTools fm_checkRequestUrl:url];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    // 是否在证书域字段中验证域名
-    [manager.securityPolicy setValidatesDomainName:NO];
-    manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
+//    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    // 是否允许无效证书, 默认为NO
+//    manager.securityPolicy.allowInvalidCertificates = YES;
+//    // 是否校验域名, 默认为YES
+//    manager.securityPolicy.validatesDomainName = NO;
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/html",@"text/json",@"text/javascript",@"text/plain", nil];
+
+//    manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
     if (FMNetworkingManager.sharedInstance.timeout) {
         manager.requestSerializer.timeoutInterval = FMNetworkingManager.sharedInstance.timeout;
     }
