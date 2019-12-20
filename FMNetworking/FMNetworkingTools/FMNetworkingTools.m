@@ -12,6 +12,7 @@
 
 @implementation FMNetworkingTools
 
+static BOOL isShowAlert;
 
 + (BOOL)fm_notEmptyInputObjcView:(id)objcView  tip:(NSString *)tip{
     BOOL isEmpty = NO;
@@ -81,8 +82,14 @@
     if (!FMNetworkingManager.sharedInstance.loginClassString.length) {
         return;
     }
+    
+    if (isShowAlert) {
+        return;
+    }
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:tipsStr preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {}]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+        isShowAlert = NO;
+    }]];
     [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         UIViewController *currentVC = [FMNetworkingTools fm_getCurrentViewController];
         
@@ -99,8 +106,10 @@
         nav.modalPresentationStyle = UIModalPresentationFullScreen;
         [FMNetworkingTools fm_getCurrentViewController].modalPresentationStyle = UIModalPresentationFullScreen;
         [[FMNetworkingTools fm_getCurrentViewController] presentViewController:nav animated:YES completion:^{
+            isShowAlert = NO;
         }];
     }]];
+    isShowAlert = YES;
     [[FMNetworkingTools fm_getCurrentViewController] presentViewController:alert animated:YES completion:nil];
 }
 
