@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFNetworking.h"
+#import <UIKit/UIKit.h>
+//#import "AFNetworking.h"
+@protocol AFMultipartFormData;
+
 typedef NS_ENUM(NSInteger, FMNetworkingRequestType) {
     FMNetworkingRequestTypeGET = 1,
     FMNetworkingRequestTypePOST,

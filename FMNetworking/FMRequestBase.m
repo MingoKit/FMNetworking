@@ -7,8 +7,9 @@
 //
 
 #import "FMRequestBase.h"
-#import "FMNetworkingTools.h"
+#import "FMNetworkingTools+FMAdd.h"
 #import "FMNetworkingManager.h"
+#import <AFNetworking.h>
 
 @implementation FMRequestBase
 
@@ -205,8 +206,8 @@
         !successOkBlock? :successOkBlock(jsonData,code,msgStr);
         return;
     }
-    
-    if (code == FMNetworkingManager.sharedInstance.codeLogout) {
+    if (((code <= FMNetworkingManager.sharedInstance.codeLogoutMax) && (code >= FMNetworkingManager.sharedInstance.codeLogoutMin)) ||
+         code == FMNetworkingManager.sharedInstance.codeLogout) {
         if (FMNetworkingManager.sharedInstance.networkingHandler) {
             FMNetworkingManager.sharedInstance.networkingHandler(FMNetworkingHandlerTypeLogout, responseObject);
         }

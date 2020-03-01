@@ -27,7 +27,10 @@ typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type, id objc);
 /// 请求成功 code 码
 @property (nonatomic, assign) NSInteger codeSuccess;
 /// 退出登录code 码【会回调 FMNetworkingManager 中 networkingHandler(FMNetworkingHandlerTypeLogout, responseObject);】
-@property (nonatomic, assign) NSInteger codeLogout;
+@property (nonatomic, assign) NSInteger codeLogout; // 指定退出登录码
+@property (nonatomic, assign) NSInteger codeLogoutMin; // 退出登录最小码
+@property (nonatomic, assign) NSInteger codeLogoutMax; // 退出登录最大码 比如：300~400之间统一要求退出
+
 /// 超时时间 【默认 20】
 @property (nonatomic, assign) NSTimeInterval timeout;
 /// 登录界面控制器名称

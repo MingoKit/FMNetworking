@@ -9,19 +9,9 @@
 #import "FMNetworkingHelper.h"
 #import "FMNetworkingManager.h"
 #import "FMNetworkingTools.h"
+#import <AFNetworking.h>
 
 @implementation FMNetworkingHelper
-//+ (void)fm_showIndicator:(BOOL)showIndicator showStatusTips:(BOOL)showStatusTip noLog:(BOOL)nolog responseObject:(id)responseObject successOkBlock:(RequestSuccessBlock)successOkBlock successTokenErrorBlock:(RequestSuccessBlock)tokenErrorBlock successNotNeedBlock:(RequestSuccessBlock)notNeedBlock {
-//    
-//    NSInteger code = [responseObject[@"code"] integerValue];
-//    if (code == FMNetworkingManager.sharedInstance.codeLogout) {
-//        NSLog(@"responseObject-------%@",responseObject);
-//        [self fm_loginOut];
-//        return ;
-//    }
-//    [super fm_showIndicator:showIndicator showStatusTips:showStatusTip noLog:nolog responseObject:responseObject successOkBlock:successOkBlock successTokenErrorBlock:tokenErrorBlock successNotNeedBlock:notNeedBlock];
-//}
-
 
 /// 上传用户图片  头像
 + (void)fm_uploadImagesUrl:(NSString *)urlString params:(id)params arrImagesOrFileNsdata:(id)imagesOrData progress:(RequestProgressBlock)progressBlock success:(RequestSuccessBlock)successBlock  {

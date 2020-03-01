@@ -7,7 +7,7 @@
 //
 
 #import "FMNetworkingManager.h"
-#import "FMNetworkingTools.h"
+#import "FMNetworkingTools+FMAdd.h"
 
 static id  _sharedInstance = nil;
 @interface FMNetworkingManager()<NSCopying,NSMutableCopying>

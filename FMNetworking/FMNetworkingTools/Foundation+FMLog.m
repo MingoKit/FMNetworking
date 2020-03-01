@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@implementation NSDictionary (Log)
+@implementation NSDictionary (FMLog)
 
 - (NSString *)descriptionWithLocale:(id)locale
 {
@@ -33,7 +33,7 @@
 @end
 
 
-@implementation NSArray (Log)
+@implementation NSArray (FMLog)
 
 - (NSString *)descriptionWithLocale:(id)locale
 {
