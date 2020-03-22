@@ -8,30 +8,25 @@
 
 #import "FMNetworkingHelper.h"
 #import "FMNetworkingManager.h"
-#import "FMNetworkingTools.h"
+#import "FMNetworkingTools+FMAdd.h"
 #import <AFNetworking.h>
 
 @implementation FMNetworkingHelper
 
-/// 上传用户图片  头像
-+ (void)fm_uploadImagesUrl:(NSString *)urlString params:(id)params arrImagesOrFileNsdata:(id)imagesOrData progress:(RequestProgressBlock)progressBlock success:(RequestSuccessBlock)successBlock  {
-    [FMNetworkingManager fm_postRequest:urlString params:params forHTTPHeaderField:nil showIndicator:YES showStatusTip:YES constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        if ([imagesOrData isKindOfClass:NSArray.class] || [imagesOrData isKindOfClass:NSMutableArray.class]) {
-            //如果是传多张图片
-            NSArray *images = [NSArray arrayWithArray:imagesOrData];
-            for (int i = 0; i < images.count; i++) {
-                if (![images[i] isKindOfClass:[UIImage class]]) {return;}/// 不是UIImage对象
-            }
-            for (int i = 0;i<images.count;i++) {
-                NSData *imageData;
-                imageData = UIImageJPEGRepresentation(images[i], 0.5);
-                [formData appendPartWithFileData:imageData name:urlString fileName:@"image.jpeg" mimeType:@"image/jpg/png/jpeg"];
-            }
-            return;
-        }
-        if ([imagesOrData isKindOfClass:NSData.class]) { //按照表单格式把二进制文件写入formData表单
-            [formData appendPartWithFileData:imagesOrData name:urlString fileName:@"image.jpeg" mimeType:@"application/octet-stream"];
-            return;
+/// 上传图片 
++ (void)fm_uploadImagesUrl:(NSString *)url params:(id)params forHTTPHeaderField:(NSDictionary *)dicHeader arrImages:(NSMutableArray *)arrImages appointName:(NSString *)appointName progress:(RequestProgressBlock)progressBlock success:(RequestSuccessBlock)successBlock  {
+
+    [FMNetworkingManager fm_postRequest:url params:params forHTTPHeaderField:dicHeader showIndicator:YES showStatusTip:YES constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        for (int i = 0; i < arrImages.count; i++) {
+            NSString *fileName = [NSString stringWithFormat:@"%@.jpg", [FMNetworkingTools fm_nowtimeString]];
+            NSData *imageData;
+            if (![arrImages[i] isKindOfClass:[UIImage class]]) {continue;}/// 不是UIImage对象
+            imageData = UIImageJPEGRepresentation(arrImages[i], 0.4);
+            [formData appendPartWithFileData:imageData name:appointName.length ? appointName : @"image" fileName:fileName mimeType:@"image/jpg/png/jpeg"];
+            
+            /* //上传 此方法参数  1. 要上传的[二进制数据] 2. 对应上[upload.php中]处理文件的[字段"file"] 3. 要保存在服务器上的[文件名] 4. 上传文件的[mimeType]
+             */
+//               [formData appendPartWithFileData:imagesOrData name:@"image" fileName:fileName mimeType:@"image/jpg"];
         }
     } progress:^(NSProgress *uploadProgress, CGFloat progress) {
         if (progressBlock) progressBlock(uploadProgress,progress);

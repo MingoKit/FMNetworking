@@ -31,4 +31,6 @@
 + (BOOL)fm_check;
 
 + (NSString *)fm_checkRequestUrl:(NSString *)url;
+/// 当前时间字符串 20200307145530
++ (NSString *)fm_nowtimeString ;
 @end

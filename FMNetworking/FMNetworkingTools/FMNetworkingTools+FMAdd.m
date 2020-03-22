@@ -228,4 +228,11 @@ static BOOL isShowAlert;
     urlStr = [NSURL URLWithString:urlStr] ? urlStr : [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];
     return urlStr;
 }
+
++ (NSString *)fm_nowtimeString {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyyMMddHHmmss";
+    NSString *str = [formatter stringFromDate:[NSDate date]];
+    return str;
+}
 @end

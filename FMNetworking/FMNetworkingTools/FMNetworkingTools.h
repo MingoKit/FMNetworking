@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#define kshowHudText(_string_) [FMNetworkingTools fm_showHudText:((__bridge NSString *)CFSTR(#_string_))];
+#define kshowHudTextFormat(_string_) [FMNetworkingTools fm_showHudText:_string_];
 
 @class AFHTTPSessionManager;
 
