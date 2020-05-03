@@ -42,7 +42,8 @@
     [FMEasyShowOptions sharedFMEasyShowOptions].textStatusType = ShowTextStatusTypeMidden;
     [FMEasyShowOptions sharedFMEasyShowOptions].lodingSuperViewReceiveEvent = NO;
     [FMEasyShowOptions sharedFMEasyShowOptions].lodingShowOnWindow = YES;
-    [FMEasyShowOptions sharedFMEasyShowOptions].lodingAnimationType = lodingAnimationTypeBounce;
+    [FMEasyShowOptions sharedFMEasyShowOptions].lodingBackgroundColor = UIColor.clearColor;
+    [FMEasyShowOptions sharedFMEasyShowOptions].lodingAnimationType = lodingAnimationTypeNone;
     [FMEasyShowOptions sharedFMEasyShowOptions].lodingShowType = LodingShowTypeIndicator;
     [FMEasyShowLodingView showLodingText:@""];
 }

@@ -120,7 +120,8 @@ static id  _sharedInstance = nil;
     }];
 }
 
-+(void)fm_postRepeatedlyUrl:(NSString *)url failureTimes:(NSInteger)times params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
+///TODO: post请求 失败自动再次请求 【开发中ing】
++(void)fm_postAutotryUrl:(NSString *)url failureTimes:(NSInteger)times params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock {
     [FMNetworkingManager fm_postRequest:url params:params forHTTPHeaderField:nil showIndicator:showIndicator showStatusTip:showStatusTip constructingBodyWithBlock:nil progress:nil successOkBlock:^(id responseObject, NSInteger code, NSString *msgStr) {
         if (successBlock) successBlock(responseObject,code,msgStr);
         

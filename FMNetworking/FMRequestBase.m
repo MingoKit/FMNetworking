@@ -34,7 +34,7 @@
         params = @{}.mutableCopy;
     }
     if (showIndicator) [FMNetworkingTools fm_showHudLoadingIndicator];
-    [manager POST:urlStr parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    [manager POST:urlStr parameters:params headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         if (constructingBodyblock) constructingBodyblock(formData);
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {

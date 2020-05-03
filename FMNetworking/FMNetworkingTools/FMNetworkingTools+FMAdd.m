@@ -12,8 +12,6 @@
 #import "FMNetworkingManager.h"
 #import <AFNetworking.h>
 
-
-
 @implementation FMNetworkingTools (FMAdd)
 
 /// 是否显示了 重新登录的提示框
@@ -28,31 +26,45 @@ static BOOL isShowAlert;
     if (isShowAlert) {
         return;
     }
+    __block UIViewController *topvc = FMNetworkingTools.fm_getCurrentViewController;
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:tipsStr preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         isShowAlert = NO;
     }]];
-    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        UIViewController *currentVC = [FMNetworkingTools fm_getCurrentViewController];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//        UIViewController *currentVC = [FMNetworkingTools fm_getCurrentViewController];
         
-        if(currentVC.presentingViewController) {
+        if(topvc.presentingViewController) { // topvc - 01
                 // 视图是被presented出来的
-            [currentVC dismissViewControllerAnimated:NO completion:nil];
+            [topvc dismissViewControllerAnimated:NO completion:nil];
         }else {
                 // 根视图为UINavigationController
-            [currentVC.navigationController popViewControllerAnimated:NO];
+            [topvc.navigationController popViewControllerAnimated:NO];
         }
-        UIViewController *vc = [[NSClassFromString(FMNetworkingManager.sharedInstance.loginClassString) alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        vc.navigationController.navigationBar.hidden = YES;
-        nav.modalPresentationStyle = UIModalPresentationFullScreen;
-        [FMNetworkingTools fm_getCurrentViewController].modalPresentationStyle = UIModalPresentationFullScreen;
-        [[FMNetworkingTools fm_getCurrentViewController] presentViewController:nav animated:YES completion:^{
-            isShowAlert = NO;
-        }];
+        //  延时一秒 。不然 下面的 topvc - 01会错误的还是  topvc - 01
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            topvc = FMNetworkingTools.fm_getCurrentViewController; // topvc - 02
+            
+            UIViewController *vc = [[NSClassFromString(FMNetworkingManager.sharedInstance.loginClassString) alloc] init];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            vc.navigationController.navigationBar.hidden = YES;
+            nav.modalPresentationStyle = UIModalPresentationFullScreen;
+            
+            topvc.modalPresentationStyle = UIModalPresentationFullScreen;
+            [topvc presentViewController:nav animated:YES completion:^{
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    isShowAlert = NO;
+                });
+            }];
+        });
+        
     }]];
     isShowAlert = YES;
-    [[FMNetworkingTools fm_getCurrentViewController] presentViewController:alert animated:YES completion:nil];
+    [topvc presentViewController:alert animated:YES completion:^{
+//        isShowAlert = YES; 弹出框后再执行会有重复弹框bug
+        NSLog(@"isShowAlert");
+
+    }];
 }
 
 + (NSString *)fm_dictionaryOrArrayToJsonString:(id)objc{

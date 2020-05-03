@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.source       = { :git => 'https://github.com/yfming93/FMNetworking.git', :tag => s.version.to_s }
   
-  s.dependency "AFNetworking", "~> 3.2.1"
+  s.dependency "AFNetworking", "~> 4.0.1"
   s.requires_arc = true
   s.source_files = 'FMNetworking/**/*.{h,m}'
   s.public_header_files = 'FMNetworking/**/*.{h}'

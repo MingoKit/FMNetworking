@@ -61,9 +61,6 @@ typedef void (^FMNetworkingHandler)(FMNetworkingHandlerType type, id objc);
 /// post请求 需要手动判断code
 +(void)fm_postUrlCodeYourself:(NSString *)url params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock;
 
-/// post请求 失败自动再次请求 【开发中ing】
-+(void)fm_postRepeatedlyUrl:(NSString *)url failureTimes:(NSInteger)times params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock failureBlock:(RequestFailureBlock)failureBlock ;
-
 /// get请求 有成功和失败回调
 +(void)fm_getUrl:(NSString *)url params:(NSMutableDictionary *)params showIndicator:(BOOL)showIndicator showStatusTip:(BOOL)showStatusTip successBlock:(RequestSuccessBlock)successBlock  failureBlock:(RequestFailureBlock)failureBlock;
 /// get请求 需要手动判断code
